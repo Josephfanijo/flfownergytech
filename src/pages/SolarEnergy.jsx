@@ -123,7 +123,7 @@ export default function SolarEnergy() {
                 and lithium storage offer a dependable, cost-predictable energy solution.
               </p>
               <p style={{ marginBottom: '1.5rem' }}>
-                At FLOWNERGY GLOBAL LIMITED, we avoid one-size-fits-all kits. A solar installation must be 
+                At FLOWNERGY TECH, we avoid one-size-fits-all kits. A solar installation must be 
                 engineered precisely around your appliance wattage, daytime vs. nighttime consumption, 
                 roof orientation, and essential vs. non-essential load partitioning.
               </p>

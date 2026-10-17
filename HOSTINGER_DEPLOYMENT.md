@@ -1,6 +1,6 @@
-# FLOWNERGY GLOBAL LIMITED — Hostinger Deployment & Configuration Guide
+# FLOWNERGY TECH — Hostinger Deployment & Configuration Guide
 
-**Official Company:** FLOWNERGY GLOBAL LIMITED  
+**Official Company:** FLOWNERGY TECH  
 **Official Domain:** `https://flownergytech.com`  
 **Framework:** React + Vite (Static Client SPA with Apache/LiteSpeed rewrite support)  
 **Build Command:** `npm run build`  
@@ -114,7 +114,7 @@ To connect directly to external email dispatch:
 
 ## 7. Verification Checklist
 
-- [x] Official company name: FLOWNERGY GLOBAL LIMITED
+- [x] Official company name: FLOWNERGY TECH
 - [x] Official domain: https://flownergytech.com
 - [x] Approved brand colors: #324763, #E87A00, #FFFFFF, #F5F7F9, #5F7894
 - [x] Exactly 5 primary navigation items: Home, About Us, Services, Projects, Contact Us

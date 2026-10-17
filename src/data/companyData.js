@@ -1,7 +1,7 @@
-// FLOWNERGY GLOBAL LIMITED — Official Company Information & Content Data
+// FLOWNERGY TECH — Official Company Information & Content Data
 
 export const COMPANY_INFO = {
-  name: "FLOWNERGY GLOBAL LIMITED",
+  name: "FLOWNERGY TECH",
   shortName: "FLOWNERGY",
   domain: "https://flownergytech.com",
   tagline: "Powering, Protecting & Managing Your Property",

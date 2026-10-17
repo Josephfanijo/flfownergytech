@@ -122,7 +122,7 @@ export default function PropertyManagement() {
                 and addressing tenant repair requests.
               </p>
               <p style={{ marginBottom: '1.5rem' }}>
-                FLOWNERGY GLOBAL LIMITED provides property owners and landlords with an organized, 
+                FLOWNERGY TECH provides property owners and landlords with an organized, 
                 accountable management service. Backed by our in-house electrical and technical expertise, 
                 routine preventive maintenance is conducted proactively, reducing sudden breakdowns 
                 and protecting your real estate asset value.

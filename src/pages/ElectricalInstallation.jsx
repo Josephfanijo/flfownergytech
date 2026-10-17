@@ -44,7 +44,7 @@ export default function ElectricalInstallation() {
                 and persistent power interruptions.
               </p>
               <p style={{ marginBottom: '1.5rem' }}>
-                At FLOWNERGY GLOBAL LIMITED, our electrical engineers deliver precision installations 
+                At FLOWNERGY TECH, our electrical engineers deliver precision installations 
                 for new construction projects and existing buildings. Every wire gauge is calculated to load, 
                 every distribution board is neatly arranged and labeled, and earthing protection is rigorously verified.
               </p>
@@ -131,7 +131,7 @@ export default function ElectricalInstallation() {
               <h2>Uncompromising Electrical Safety Standards</h2>
               <p style={{ marginBottom: '1.25rem' }}>
                 Electrical works involve inherent hazards when executed carelessly. 
-                At FLOWNERGY GLOBAL LIMITED, we adhere strictly to engineering best practices:
+                At FLOWNERGY TECH, we adhere strictly to engineering best practices:
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>

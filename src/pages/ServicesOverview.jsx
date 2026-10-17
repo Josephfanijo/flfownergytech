@@ -31,7 +31,7 @@ export default function ServicesOverview() {
             <span className="badge-tag">Comprehensive Solutions</span>
             <h2>Four Specialized Divisions. One Accountable Partner.</h2>
             <p>
-              FLOWNERGY GLOBAL LIMITED provides integrated solutions tailored to the needs 
+              FLOWNERGY TECH provides integrated solutions tailored to the needs 
               of modern residential, commercial, and industrial clients across Nigeria.
             </p>
           </div>

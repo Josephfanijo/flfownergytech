@@ -301,7 +301,7 @@ export default function QuotationForm({ preselectedService = "", title = "Reques
 
           {/* Privacy Note */}
           <div style={{ fontSize: '0.82rem', color: '#718296', marginBottom: '1.5rem' }}>
-            🔒 <strong>Privacy Assurance:</strong> FLOWNERGY GLOBAL LIMITED treats all client and property details confidentially. Your information will only be used to generate your technical quotation.
+            🔒 <strong>Privacy Assurance:</strong> FLOWNERGY TECH treats all client and property details confidentially. Your information will only be used to generate your technical quotation.
           </div>
 
           {/* Submit CTA */}

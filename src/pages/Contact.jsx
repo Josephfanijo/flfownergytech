@@ -30,7 +30,7 @@ export default function Contact() {
   }, [location]);
 
   const handleWhatsAppDirect = () => {
-    openWhatsApp("Hello FLOWNERGY GLOBAL LIMITED, I would like to enquire about your services and discuss a project quotation.");
+    openWhatsApp("Hello FLOWNERGY TECH, I would like to enquire about your services and discuss a project quotation.");
   };
 
   return (

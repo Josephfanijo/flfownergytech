@@ -91,8 +91,8 @@ export default function Header() {
       <header className="header" role="banner">
         <div className="container header-container">
           {/* Official Company Logo */}
-          <Link to="/" className="header-logo" aria-label="FLOWNERGY GLOBAL LIMITED Home">
-            <img src="/images/logo.png" alt="FLOWNERGY GLOBAL LIMITED Logo" width="60" height="60" />
+          <Link to="/" className="header-logo" aria-label="FLOWNERGY TECH Home">
+            <img src="/images/logo.png" alt="FLOWNERGY TECH Logo" width="60" height="60" />
           </Link>
 
           {/* Desktop Navigation — Exactly 5 Primary Items */}

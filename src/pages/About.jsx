@@ -33,7 +33,7 @@ export default function About() {
   return (
     <div>
       <BreadcrumbBanner 
-        title="About FLOWNERGY GLOBAL LIMITED"
+        title="About FLOWNERGY TECH"
         subtitle="Delivering integrated electrical engineering, renewable solar power, electronic security, and professional property management across Nigeria."
         crumbs={[{ label: "About Us" }]}
       />
@@ -48,7 +48,7 @@ export default function About() {
               <span className="badge-tag">Company Overview</span>
               <h2>Integrated Engineering & Property Solutions</h2>
               <p className="text-lead" style={{ marginBottom: '1.25rem' }}>
-                FLOWNERGY GLOBAL LIMITED is a multidisciplinary engineering and property services 
+                FLOWNERGY TECH is a multidisciplinary engineering and property services 
                 company established to provide dependable solutions across four vital divisions: 
                 <strong> Electrical Installation</strong>, <strong>Solar Energy</strong>, 
                 <strong> CCTV & Security Systems</strong>, and <strong>Property Management</strong>.
@@ -234,7 +234,7 @@ export default function About() {
                 burnouts, dangerous electrical fires, and expensive asset losses. 
               </p>
               <p style={{ fontSize: '0.98rem', lineHeight: '1.7', marginBottom: '1.75rem' }}>
-                FLOWNERGY GLOBAL LIMITED prioritizes standard circuit protection, proper grounding, and 
+                FLOWNERGY TECH prioritizes standard circuit protection, proper grounding, and 
                 clean cable trunking so that every installation runs safely and reliably for years to come.
               </p>
               <Link to="/contact#quote" className="btn btn-primary" style={{ width: '100%' }}>
@@ -275,7 +275,7 @@ export default function About() {
       <section className="section section-navy">
         <div className="container" style={{ textAlign: 'center', maxWidth: '780px' }}>
           <h2 style={{ color: '#FFFFFF', marginBottom: '1.25rem', fontSize: '2.3rem' }}>
-            Ready to Partner With FLOWNERGY GLOBAL LIMITED?
+            Ready to Partner With FLOWNERGY TECH?
           </h2>
           <p style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '1.15rem', marginBottom: '2.2rem' }}>
             Contact our engineering and facility team today to discuss your project requirements or request an on-site survey.

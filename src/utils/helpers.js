@@ -1,11 +1,11 @@
-// Consolidated Shared Utility Functions for FLOWNERGY GLOBAL LIMITED
+// Consolidated Shared Utility Functions for FLOWNERGY TECH
 import { COMPANY_INFO } from '../data/companyData';
 
 /**
  * Open official WhatsApp business chat with a prefilled enquiry message.
  * @param {string} message - Optional customized message
  */
-export function openWhatsApp(message = "Hello FLOWNERGY GLOBAL LIMITED, I would like to enquire about your services and request a quotation.") {
+export function openWhatsApp(message = "Hello FLOWNERGY TECH, I would like to enquire about your services and request a quotation.") {
   const url = `https://wa.me/${COMPANY_INFO.whatsappNumber}?text=${encodeURIComponent(message)}`;
   window.open(url, '_blank');
 }

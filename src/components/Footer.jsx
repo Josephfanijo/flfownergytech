@@ -13,8 +13,8 @@ export default function Footer() {
         <div className="footer-grid">
           {/* Column 1: Company Profile */}
           <div className="footer-brand">
-            <Link to="/" className="footer-logo-link" aria-label="FLOWNERGY GLOBAL LIMITED Home">
-              <img src="/images/logo.png" alt="FLOWNERGY GLOBAL LIMITED" width="60" height="60" className="footer-logo-img" />
+            <Link to="/" className="footer-logo-link" aria-label="FLOWNERGY TECH Home">
+              <img src="/images/logo.png" alt="FLOWNERGY TECH" width="60" height="60" className="footer-logo-img" />
             </Link>
             <p>
               Dependable electrical installation, intelligent solar energy solutions, 

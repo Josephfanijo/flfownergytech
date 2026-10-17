@@ -29,7 +29,7 @@ export default function Home() {
           <div className="hero-content">
             <div className="hero-badge">
               <ShieldCheck size={16} />
-              <span>FLOWNERGY GLOBAL LIMITED — Corporate Solutions</span>
+              <span>FLOWNERGY TECH — Corporate Solutions</span>
             </div>
 
             <h1 id="hero-heading">
@@ -108,7 +108,7 @@ export default function Home() {
               <span className="badge-tag">Company Profile</span>
               <h2 style={{ marginBottom: '1.25rem' }}>Integrated Solutions. Dependable Service.</h2>
               <p className="text-lead" style={{ marginBottom: '1.25rem' }}>
-                FLOWNERGY GLOBAL LIMITED delivers specialized electrical installation, 
+                FLOWNERGY TECH delivers specialized electrical installation, 
                 intelligent solar energy solutions, high-definition CCTV security systems, 
                 and comprehensive property management across Nigeria.
               </p>
@@ -205,7 +205,7 @@ export default function Home() {
       </section>
 
       {/* =========================================================================
-          SECTION 4: WHY CHOOSE FLOWNERGY GLOBAL LIMITED
+          SECTION 4: WHY CHOOSE FLOWNERGY TECH
           ========================================================================= */}
       <section className="section section-light" id="why-choose-us">
         <div className="container">
@@ -399,7 +399,7 @@ export default function Home() {
               Commitment to Authentic Client Feedback
             </h3>
             <p style={{ fontSize: '1.05rem', color: '#4A5B70', lineHeight: '1.7', marginBottom: '1.75rem' }}>
-              FLOWNERGY GLOBAL LIMITED operates strictly on truth and accountability. 
+              FLOWNERGY TECH operates strictly on truth and accountability. 
               We do not publish fabricated quotes or invented client reviews. 
               Client references and site evaluation reports are shared during technical proposals 
               upon client consent.
@@ -424,7 +424,7 @@ export default function Home() {
               </h2>
               <p style={{ color: 'rgba(255, 255, 255, 0.9)', fontSize: '1.15rem', lineHeight: '1.7', marginBottom: '2rem' }}>
                 Whether you need electrical installation, solar energy solutions, security systems, 
-                or property management, contact FLOWNERGY GLOBAL LIMITED to discuss your requirements.
+                or property management, contact FLOWNERGY TECH to discuss your requirements.
               </p>
 
               <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem', marginBottom: '2rem' }}>
@@ -445,7 +445,7 @@ export default function Home() {
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                 <button 
                   type="button"
-                  onClick={() => openWhatsApp("Hello FLOWNERGY GLOBAL LIMITED, I would like to request a quotation for my project.")}
+                  onClick={() => openWhatsApp("Hello FLOWNERGY TECH, I would like to request a quotation for my project.")}
                   className="btn btn-primary"
                 >
                   <PhoneCall size={16} />

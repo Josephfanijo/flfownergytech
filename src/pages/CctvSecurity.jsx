@@ -45,7 +45,7 @@ export default function CctvSecurity() {
                 and sensitive storage areas.
               </p>
               <p style={{ marginBottom: '1.5rem' }}>
-                FLOWNERGY GLOBAL LIMITED designs and installs high-definition IP camera networks 
+                FLOWNERGY TECH designs and installs high-definition IP camera networks 
                 engineered for round-the-clock reliability. With night-vision capabilities, tamper-resistant 
                 conduits, surveillance-grade NVR storage, and secure remote viewing on your phone or computer, 
                 you maintain complete situational awareness over your premises.

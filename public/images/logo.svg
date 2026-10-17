@@ -24,9 +24,9 @@
     <text x="0" y="24" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="900" font-size="28" letter-spacing="1.5" fill="#324763">
       FLOWN<tspan fill="#E87A00">ERGY</tspan>
     </text>
-    <!-- GLOBAL LIMITED -->
-    <text x="2" y="41" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="9" letter-spacing="4.5" fill="#5F7894">
-      GLOBAL LIMITED
+    <!-- TECH -->
+    <text x="2" y="41" font-family="'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-weight="700" font-size="10" letter-spacing="6" fill="#5F7894">
+      TECH
     </text>
   </g>
 </svg>
