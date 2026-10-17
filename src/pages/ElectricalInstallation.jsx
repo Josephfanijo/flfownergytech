@@ -1,18 +1,13 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { 
   Zap, 
   ShieldCheck, 
-  CheckCircle2, 
   ArrowRight, 
-  Wrench, 
-  AlertTriangle, 
-  Cpu, 
   Building2, 
   Home as HomeIcon, 
   Factory 
 } from 'lucide-react';
-import { SERVICES, WORK_PROCESS } from '../data/companyData';
+import { SERVICES } from '../data/companyData';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 import FAQAccordion from '../components/FAQAccordion';
 import QuotationForm from '../components/QuotationForm';

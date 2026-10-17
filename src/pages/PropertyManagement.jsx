@@ -1,21 +1,16 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { 
   Building, 
-  ShieldCheck, 
   CheckCircle2, 
   ArrowRight, 
-  Wrench, 
   Users, 
-  ClipboardCheck, 
-  FileText, 
   Key, 
   AlertCircle,
   Copy,
   Check,
   MessageSquare
 } from 'lucide-react';
-import { SERVICES, COMPANY_INFO } from '../data/companyData';
+import { SERVICES } from '../data/companyData';
 import { generateTicket, saveEnquiry, copyToClipboard, openWhatsApp } from '../utils/helpers';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 import FAQAccordion from '../components/FAQAccordion';

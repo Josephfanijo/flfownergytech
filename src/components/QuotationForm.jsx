@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Send, CheckCircle2, AlertCircle, Copy, Check, MessageSquare } from 'lucide-react';
-import { COMPANY_INFO, SERVICES } from '../data/companyData';
+import { SERVICES } from '../data/companyData';
 import { generateTicket, saveEnquiry, copyToClipboard, openWhatsApp } from '../utils/helpers';
 
 export default function QuotationForm({ preselectedService = "", title = "Request a Quotation", subtitle = "Complete the form below to receive a detailed technical assessment and quote." }) {
@@ -15,15 +15,15 @@ export default function QuotationForm({ preselectedService = "", title = "Reques
     preferredContact: "Phone Call"
   });
 
+  const [prevServiceProp, setPrevServiceProp] = useState(preselectedService);
+  if (preselectedService && preselectedService !== prevServiceProp) {
+    setPrevServiceProp(preselectedService);
+    setFormData(prev => ({ ...prev, service: preselectedService }));
+  }
+
   const [status, setStatus] = useState({ type: null, message: "", ticket: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [copied, setCopied] = useState(false);
-
-  useEffect(() => {
-    if (preselectedService) {
-      setFormData(prev => ({ ...prev, service: preselectedService }));
-    }
-  }, [preselectedService]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;

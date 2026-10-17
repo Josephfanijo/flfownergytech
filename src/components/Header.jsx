@@ -4,17 +4,12 @@ import {
   ChevronDown, 
   Menu, 
   X, 
-  Phone, 
   Mail, 
   Clock, 
   ArrowRight, 
-  ShieldCheck, 
-  Zap, 
-  Sun, 
-  Camera, 
-  Building 
+  ShieldCheck 
 } from 'lucide-react';
-import { COMPANY_INFO, SERVICES } from '../data/companyData';
+import { COMPANY_INFO } from '../data/companyData';
 import { scrollToElement } from '../utils/helpers';
 
 export default function Header() {
@@ -29,12 +24,14 @@ export default function Header() {
   const aboutRef = useRef(null);
   const servicesRef = useRef(null);
 
-  // Close mobile drawer on route change
-  useEffect(() => {
+  // Close mobile drawer and dropdowns on route change
+  const [prevLocationKey, setPrevLocationKey] = useState(location.key);
+  if (location.key !== prevLocationKey) {
+    setPrevLocationKey(location.key);
     setMobileMenuOpen(false);
     setAboutDropdownOpen(false);
     setServicesDropdownOpen(false);
-  }, [location.pathname, location.hash]);
+  }
 
   // Handle outside clicks to close desktop dropdowns
   useEffect(() => {

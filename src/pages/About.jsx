@@ -1,18 +1,13 @@
 import React, { useEffect } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { 
-  ShieldCheck, 
   Target, 
   Compass, 
-  CheckCircle, 
   Zap, 
   Sun, 
   Camera, 
   Building, 
   ArrowRight,
-  Award,
-  Users,
-  Eye,
   CheckCircle2
 } from 'lucide-react';
 import { COMPANY_INFO, SECTORS } from '../data/companyData';

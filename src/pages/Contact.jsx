@@ -2,16 +2,12 @@ import React, { useEffect } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import { 
   Mail, 
-  Phone, 
-  MapPin, 
   Clock, 
   MessageSquare, 
-  ShieldCheck, 
   CheckCircle2, 
-  ArrowRight,
   Globe
 } from 'lucide-react';
-import { COMPANY_INFO, SERVICES } from '../data/companyData';
+import { COMPANY_INFO } from '../data/companyData';
 import { openWhatsApp, scrollToElement } from '../utils/helpers';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 import QuotationForm from '../components/QuotationForm';

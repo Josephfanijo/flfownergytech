@@ -13,7 +13,7 @@ import {
   Clock, 
   PhoneCall 
 } from 'lucide-react';
-import { COMPANY_INFO, SERVICES, PROJECTS_DATA, SECTORS, WORK_PROCESS } from '../data/companyData';
+import { SERVICES, PROJECTS_DATA, SECTORS, WORK_PROCESS } from '../data/companyData';
 import { getServiceIcon, getSectorIcon } from '../utils/icons';
 import { openWhatsApp } from '../utils/helpers';
 import QuotationForm from '../components/QuotationForm';

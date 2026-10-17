@@ -1,14 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Zap, 
-  Sun, 
-  Camera, 
-  Building, 
   ArrowRight, 
-  CheckCircle2, 
-  ShieldCheck, 
-  FileText 
+  CheckCircle2 
 } from 'lucide-react';
 import { SERVICES } from '../data/companyData';
 import { getServiceIcon } from '../utils/icons';

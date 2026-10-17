@@ -1,11 +1,13 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Clock, ArrowRight, ShieldCheck, MessageSquare } from 'lucide-react';
+import { Mail, MapPin, Clock, ShieldCheck, MessageSquare } from 'lucide-react';
 import { COMPANY_INFO, SERVICES } from '../data/companyData';
 import { openWhatsApp } from '../utils/helpers';
 
+const CURRENT_YEAR = new Date().getFullYear();
+
 export default function Footer() {
-  const currentYear = new Date().getFullYear();
+  const currentYear = CURRENT_YEAR;
 
   return (
     <footer className="footer" role="contentinfo">

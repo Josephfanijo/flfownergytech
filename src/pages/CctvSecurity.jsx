@@ -1,14 +1,8 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { 
   Camera, 
-  ShieldCheck, 
   CheckCircle2, 
   ArrowRight, 
-  Eye, 
-  Smartphone, 
-  HardDrive, 
-  Video, 
   Building2, 
   Home as HomeIcon, 
   Factory 

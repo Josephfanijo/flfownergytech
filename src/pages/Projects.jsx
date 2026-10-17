@@ -1,17 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
-  Zap, 
-  Sun, 
-  Camera, 
-  Building, 
   MapPin, 
   CheckCircle2, 
-  ArrowRight, 
-  Filter, 
-  ExternalLink 
+  ArrowRight 
 } from 'lucide-react';
-import { PROJECTS_DATA, SERVICES } from '../data/companyData';
+import { PROJECTS_DATA } from '../data/companyData';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 
 export default function Projects() {
