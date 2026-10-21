@@ -1,16 +1,24 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   MapPin, 
   CheckCircle2, 
-  ArrowRight 
+  ArrowRight,
+  Sun,
+  Maximize2,
+  ChevronLeft,
+  ChevronRight,
+  X
 } from 'lucide-react';
 import { PROJECTS_DATA } from '../data/companyData';
+import { SOLAR_GALLERY_IMAGES } from '../data/solarGalleryData';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 
 export default function Projects() {
   const [activeFilter, setActiveFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
+  const [visibleCount, setVisibleCount] = useState(16);
+  const [lightboxIndex, setLightboxIndex] = useState(null);
 
   const filters = [
     { id: "all", label: "All Projects" },
@@ -23,6 +31,42 @@ export default function Projects() {
   const filteredProjects = activeFilter === "all" 
     ? PROJECTS_DATA 
     : PROJECTS_DATA.filter(p => p.category === activeFilter);
+
+  // Handle keyboard navigation for lightbox
+  useEffect(() => {
+    if (lightboxIndex === null) return;
+
+    const handleKeyDown = (e) => {
+      if (e.key === 'ArrowRight') {
+        setLightboxIndex((prev) => (prev + 1) % SOLAR_GALLERY_IMAGES.length);
+      } else if (e.key === 'ArrowLeft') {
+        setLightboxIndex((prev) => (prev - 1 + SOLAR_GALLERY_IMAGES.length) % SOLAR_GALLERY_IMAGES.length);
+      } else if (e.key === 'Escape') {
+        setLightboxIndex(null);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [lightboxIndex]);
+
+  const handleLoadMore = () => {
+    setVisibleCount((prev) => Math.min(prev + 16, SOLAR_GALLERY_IMAGES.length));
+  };
+
+  const handlePrevImage = () => {
+    setLightboxIndex((prev) => (prev - 1 + SOLAR_GALLERY_IMAGES.length) % SOLAR_GALLERY_IMAGES.length);
+  };
+
+  const handleNextImage = () => {
+    setLightboxIndex((prev) => (prev + 1) % SOLAR_GALLERY_IMAGES.length);
+  };
 
   return (
     <div>
@@ -50,7 +94,12 @@ export default function Projects() {
                 key={f.id}
                 type="button"
                 className={`filter-btn ${activeFilter === f.id ? 'active' : ''}`}
-                onClick={() => setActiveFilter(f.id)}
+                onClick={() => {
+                  setActiveFilter(f.id);
+                  if (f.id === 'solar-energy') {
+                    setVisibleCount(16);
+                  }
+                }}
                 role="tab"
                 aria-selected={activeFilter === f.id}
               >
@@ -118,8 +167,336 @@ export default function Projects() {
               </article>
             ))}
           </div>
+
+          {/* Dedicated Solar Energy Field Projects Gallery */}
+          {activeFilter === 'solar-energy' && (
+            <div 
+              className="solar-field-gallery"
+              style={{ 
+                marginTop: '4rem', 
+                paddingTop: '3.5rem', 
+                borderTop: '2px solid #E2E8F0' 
+              }}
+            >
+              <style>{`
+                .solar-gallery-grid {
+                  display: grid;
+                  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                  gap: 1.25rem;
+                }
+                .solar-thumb-card {
+                  position: relative;
+                  border-radius: 12px;
+                  overflow: hidden;
+                  aspect-ratio: 4 / 3;
+                  cursor: pointer;
+                  background-color: #F5F7F9;
+                  box-shadow: 0 4px 12px rgba(50, 71, 99, 0.08);
+                  border: 1px solid #E2E8F0;
+                  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms ease;
+                }
+                .solar-thumb-card:hover {
+                  transform: translateY(-4px);
+                  box-shadow: 0 12px 24px rgba(50, 71, 99, 0.16);
+                  border-color: #E87A00;
+                }
+                .solar-thumb-img {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                .solar-thumb-card:hover .solar-thumb-img {
+                  transform: scale(1.05);
+                }
+                .solar-thumb-overlay {
+                  position: absolute;
+                  inset: 0;
+                  background: linear-gradient(180deg, rgba(50, 71, 99, 0.2) 0%, rgba(50, 71, 99, 0.6) 100%);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  opacity: 0;
+                  transition: opacity 250ms ease;
+                }
+                .solar-thumb-card:hover .solar-thumb-overlay {
+                  opacity: 1;
+                }
+                .solar-thumb-icon {
+                  width: 44px;
+                  height: 44px;
+                  border-radius: 50%;
+                  background-color: #FFFFFF;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                  transform: scale(0.85);
+                  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                .solar-thumb-card:hover .solar-thumb-icon {
+                  transform: scale(1);
+                }
+                @media (max-width: 640px) {
+                  .solar-gallery-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 0.75rem;
+                  }
+                }
+              `}</style>
+
+              <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+                <span className="badge-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.75rem' }}>
+                  <Sun size={15} color="#E87A00" />
+                  Field Installation Gallery
+                </span>
+                <h3 style={{ fontSize: '1.9rem', color: '#324763', marginBottom: '0.75rem' }}>
+                  Solar Project Engineering & Deployments
+                </h3>
+                <p style={{ color: '#4A5B70', maxWidth: '680px', margin: '0 auto', fontSize: '1rem', lineHeight: '1.7' }}>
+                  Browse through authentic field imagery documenting our rooftop solar photovoltaic arrays, 
+                  pure sine wave hybrid inverters, LiFePO4 energy storage systems, and certified technical team implementations.
+                </p>
+              </div>
+
+              {/* Gallery Grid */}
+              <div className="solar-gallery-grid">
+                {SOLAR_GALLERY_IMAGES.slice(0, visibleCount).map((image, index) => (
+                  <div 
+                    key={image.id}
+                    onClick={() => setLightboxIndex(index)}
+                    className="solar-thumb-card"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        setLightboxIndex(index);
+                      }
+                    }}
+                    aria-label={`View ${image.alt}`}
+                  >
+                    <img 
+                      src={image.src} 
+                      alt={image.alt} 
+                      loading="lazy"
+                      className="solar-thumb-img"
+                    />
+                    <div className="solar-thumb-overlay">
+                      <div className="solar-thumb-icon">
+                        <Maximize2 size={20} color="#E87A00" />
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Gallery Pagination / Load More Footer */}
+              <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+                <p style={{ color: '#718296', fontSize: '0.92rem', marginBottom: '1.25rem' }}>
+                  Showing {Math.min(visibleCount, SOLAR_GALLERY_IMAGES.length)} of {SOLAR_GALLERY_IMAGES.length} Project Photos
+                </p>
+                {visibleCount < SOLAR_GALLERY_IMAGES.length && (
+                  <button
+                    type="button"
+                    onClick={handleLoadMore}
+                    className="btn btn-outline"
+                    style={{
+                      borderColor: '#324763',
+                      color: '#324763',
+                      fontWeight: 600,
+                      padding: '0.75rem 2.2rem',
+                      fontSize: '0.95rem'
+                    }}
+                  >
+                    Load More Solar Photos ({SOLAR_GALLERY_IMAGES.length - visibleCount} remaining)
+                  </button>
+                )}
+              </div>
+            </div>
+          )}
         </div>
       </section>
+
+      {/* Lightbox Modal */}
+      {lightboxIndex !== null && (
+        <div 
+          style={{
+            position: 'fixed',
+            inset: 0,
+            backgroundColor: 'rgba(15, 23, 42, 0.94)',
+            backdropFilter: 'blur(8px)',
+            zIndex: 4000,
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            alignItems: 'center',
+            padding: '1rem'
+          }}
+          onClick={() => setLightboxIndex(null)}
+          role="dialog"
+          aria-modal="true"
+          aria-label="Solar Energy Project Photo Viewer"
+        >
+          {/* Lightbox Top Bar */}
+          <div 
+            style={{
+              position: 'absolute',
+              top: '1.25rem',
+              left: '1.25rem',
+              right: '1.25rem',
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              color: '#FFFFFF',
+              zIndex: 4010,
+              maxWidth: '1280px',
+              margin: '0 auto'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.85rem' }}>
+              <span 
+                style={{
+                  backgroundColor: '#E87A00',
+                  color: '#FFFFFF',
+                  fontSize: '0.78rem',
+                  fontWeight: 700,
+                  padding: '0.35rem 0.85rem',
+                  borderRadius: '9999px',
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.04em'
+                }}
+              >
+                Solar Energy
+              </span>
+              <span style={{ fontSize: '0.95rem', color: 'rgba(255, 255, 255, 0.9)', fontWeight: 500 }}>
+                Photo {lightboxIndex + 1} of {SOLAR_GALLERY_IMAGES.length}
+              </span>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => setLightboxIndex(null)}
+              style={{
+                background: 'rgba(255, 255, 255, 0.15)',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
+                borderRadius: '50%',
+                width: '42px',
+                height: '42px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#FFFFFF',
+                cursor: 'pointer',
+                transition: 'background 200ms ease'
+              }}
+              aria-label="Close photo viewer"
+            >
+              <X size={22} />
+            </button>
+          </div>
+
+          {/* Previous Image Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handlePrevImage();
+            }}
+            style={{
+              position: 'absolute',
+              left: '1.25rem',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'rgba(255, 255, 255, 0.15)',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
+              borderRadius: '50%',
+              width: '48px',
+              height: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#FFFFFF',
+              cursor: 'pointer',
+              zIndex: 4010,
+              transition: 'background 200ms ease'
+            }}
+            aria-label="Previous photo"
+          >
+            <ChevronLeft size={28} />
+          </button>
+
+          {/* Next Image Button */}
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              handleNextImage();
+            }}
+            style={{
+              position: 'absolute',
+              right: '1.25rem',
+              top: '50%',
+              transform: 'translateY(-50%)',
+              background: 'rgba(255, 255, 255, 0.15)',
+              border: '1px solid rgba(255, 255, 255, 0.25)',
+              borderRadius: '50%',
+              width: '48px',
+              height: '48px',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#FFFFFF',
+              cursor: 'pointer',
+              zIndex: 4010,
+              transition: 'background 200ms ease'
+            }}
+            aria-label="Next photo"
+          >
+            <ChevronRight size={28} />
+          </button>
+
+          {/* Main Image Container */}
+          <div 
+            style={{
+              maxWidth: '92vw',
+              maxHeight: '80vh',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              position: 'relative'
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <img 
+              src={SOLAR_GALLERY_IMAGES[lightboxIndex].src}
+              alt={SOLAR_GALLERY_IMAGES[lightboxIndex].alt}
+              style={{
+                maxWidth: '100%',
+                maxHeight: '80vh',
+                objectFit: 'contain',
+                borderRadius: '8px',
+                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+              }}
+            />
+          </div>
+
+          {/* Bottom Navigation Hint */}
+          <div 
+            style={{
+              position: 'absolute',
+              bottom: '1.25rem',
+              color: 'rgba(255, 255, 255, 0.75)',
+              fontSize: '0.85rem',
+              textAlign: 'center',
+              zIndex: 4010
+            }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            Use <kbd style={{ padding: '0.15rem 0.45rem', background: 'rgba(255,255,255,0.2)', borderRadius: '4px' }}>←</kbd> and <kbd style={{ padding: '0.15rem 0.45rem', background: 'rgba(255,255,255,0.2)', borderRadius: '4px' }}>→</kbd> keys to navigate, <kbd style={{ padding: '0.15rem 0.45rem', background: 'rgba(255,255,255,0.2)', borderRadius: '4px' }}>Esc</kbd> to close
+          </div>
+        </div>
+      )}
 
       {/* Project Scope Modal */}
       {selectedProject && (
