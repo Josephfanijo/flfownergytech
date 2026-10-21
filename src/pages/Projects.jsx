@@ -29,8 +29,8 @@ export default function Projects() {
   ];
 
   const filteredProjects = activeFilter === "all" 
-    ? PROJECTS_DATA 
-    : PROJECTS_DATA.filter(p => p.category === activeFilter);
+    ? PROJECTS_DATA.filter(p => p.category !== "solar-energy") 
+    : PROJECTS_DATA.filter(p => p.category === activeFilter && p.category !== "solar-energy");
 
   // Handle keyboard navigation for lightbox
   useEffect(() => {
@@ -108,74 +108,74 @@ export default function Projects() {
             ))}
           </div>
 
-          {/* Projects Grid */}
-          <div className="projects-grid">
-            {filteredProjects.map((project) => (
-              <article key={project.id} className="project-card">
-                <div className="project-media">
-                  <img src={project.image} alt={project.title} loading="lazy" />
-                  <span className="project-category-badge">{project.service}</span>
-                </div>
-                <div className="project-body">
-                  <span className="project-location">
-                    <MapPin size={14} color="#E87A00" />
-                    {project.location}
-                  </span>
-                  <h3>{project.title}</h3>
-                  <p>{project.description}</p>
-
-                  {/* Technical Specs Tags */}
-                  {project.specs && (
-                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.25rem' }}>
-                      {project.specs.map((spec, sIdx) => (
-                        <span 
-                          key={sIdx}
-                          style={{
-                            fontSize: '0.76rem',
-                            backgroundColor: '#F5F7F9',
-                            color: '#324763',
-                            padding: '0.25rem 0.6rem',
-                            borderRadius: '4px',
-                            border: '1px solid #E2E8F0',
-                            fontWeight: 500
-                          }}
-                        >
-                          {spec}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-
-                  <div style={{ marginTop: 'auto', paddingTop: '1.2rem', borderTop: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                    <button 
-                      type="button" 
-                      onClick={() => setSelectedProject(project)}
-                      className="service-card-link"
-                      style={{ fontSize: '0.9rem' }}
-                    >
-                      <span>View Scope</span>
-                      <ArrowRight size={14} />
-                    </button>
-                    <Link 
-                      to={`/contact?service=${encodeURIComponent(project.service)}#quote`}
-                      className="btn btn-sm btn-outline"
-                    >
-                      Request Similar Quote
-                    </Link>
+          {/* Projects Grid (Non-solar project categories) */}
+          {activeFilter !== 'solar-energy' && filteredProjects.length > 0 && (
+            <div className="projects-grid">
+              {filteredProjects.map((project) => (
+                <article key={project.id} className="project-card">
+                  <div className="project-media">
+                    <img src={project.image} alt={project.title} loading="lazy" />
+                    <span className="project-category-badge">{project.service}</span>
                   </div>
-                </div>
-              </article>
-            ))}
-          </div>
+                  <div className="project-body">
+                    <span className="project-location">
+                      <MapPin size={14} color="#E87A00" />
+                      {project.location}
+                    </span>
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+
+                    {/* Technical Specs Tags */}
+                    {project.specs && (
+                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.25rem' }}>
+                        {project.specs.map((spec, sIdx) => (
+                          <span 
+                            key={sIdx}
+                            style={{
+                              fontSize: '0.76rem',
+                              backgroundColor: '#F5F7F9',
+                              color: '#324763',
+                              padding: '0.25rem 0.6rem',
+                              borderRadius: '4px',
+                              border: '1px solid #E2E8F0',
+                              fontWeight: 500
+                            }}
+                          >
+                            {spec}
+                          </span>
+                        ))}
+                      </div>
+                    )}
+
+                    <div style={{ marginTop: 'auto', paddingTop: '1.2rem', borderTop: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                      <button 
+                        type="button" 
+                        onClick={() => setSelectedProject(project)}
+                        className="service-card-link"
+                        style={{ fontSize: '0.9rem' }}
+                      >
+                        <span>View Scope</span>
+                        <ArrowRight size={14} />
+                      </button>
+                      <Link 
+                        to={`/contact?service=${encodeURIComponent(project.service)}#quote`}
+                        className="btn btn-sm btn-outline"
+                      >
+                        Request Similar Quote
+                      </Link>
+                    </div>
+                  </div>
+                </article>
+              ))}
+            </div>
+          )}
 
           {/* Dedicated Solar Energy Field Projects Gallery */}
           {activeFilter === 'solar-energy' && (
             <div 
               className="solar-field-gallery"
               style={{ 
-                marginTop: '4rem', 
-                paddingTop: '3.5rem', 
-                borderTop: '2px solid #E2E8F0' 
+                marginTop: '2.5rem' 
               }}
             >
               <style>{`
