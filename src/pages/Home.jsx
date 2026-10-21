@@ -26,30 +26,43 @@ export default function Home() {
           ========================================================================= */}
       <section className="hero" aria-labelledby="hero-heading">
         <div className="container">
-          <div className="hero-content">
-            <div className="hero-badge">
-              <ShieldCheck size={16} />
-              <span>FLOWNERGY TECH — Corporate Solutions</span>
+          <div className="hero-grid">
+            <div className="hero-content">
+              <div className="hero-badge">
+                <ShieldCheck size={16} />
+                <span>FLOWNERGY TECH — Corporate Solutions</span>
+              </div>
+
+              <h1 id="hero-heading">
+                Powering, Protecting & Managing Your <span>Property</span>.
+              </h1>
+
+              <p>
+                Reliable electrical installation, intelligent solar energy solutions, 
+                advanced security systems, and professional property management for 
+                residential, commercial, and industrial clients.
+              </p>
+
+              <div className="hero-actions">
+                <Link to="/contact#quote" className="btn btn-primary btn-lg" id="hero-quote-cta">
+                  Request a Quote
+                  <ArrowRight size={18} />
+                </Link>
+                <Link to="/services" className="btn btn-outline-white btn-lg" id="hero-services-cta">
+                  Explore Our Services
+                </Link>
+              </div>
             </div>
 
-            <h1 id="hero-heading">
-              Powering, Protecting & Managing Your <span>Property</span>.
-            </h1>
-
-            <p>
-              Reliable electrical installation, intelligent solar energy solutions, 
-              advanced security systems, and professional property management for 
-              residential, commercial, and industrial clients.
-            </p>
-
-            <div className="hero-actions">
-              <Link to="/contact#quote" className="btn btn-primary btn-lg" id="hero-quote-cta">
-                Request a Quote
-                <ArrowRight size={18} />
-              </Link>
-              <Link to="/services" className="btn btn-outline-white btn-lg" id="hero-services-cta">
-                Explore Our Services
-              </Link>
+            <div className="hero-image-wrapper">
+              <div className="hero-image-card">
+                <img 
+                  src="/images/flownergy-engineer.jpg" 
+                  alt="FLOWNERGY Certified Site Engineer" 
+                  className="hero-engineer-img"
+                  loading="eager"
+                />
+              </div>
             </div>
           </div>
 
