@@ -203,13 +203,88 @@ export default function Projects() {
                 </p>
               </div>
 
-              {/* Gallery Grid */}
-              <div className="solar-gallery-grid">
+              <style>{`
+                .electrical-gallery-grid {
+                  display: grid;
+                  grid-template-columns: repeat(4, 1fr);
+                  gap: 1.25rem;
+                }
+                .electrical-thumb-card {
+                  position: relative;
+                  border-radius: 12px;
+                  overflow: hidden;
+                  aspect-ratio: 4 / 3;
+                  cursor: pointer;
+                  background-color: #F5F7F9;
+                  box-shadow: 0 4px 12px rgba(50, 71, 99, 0.08);
+                  border: 1px solid #E2E8F0;
+                  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms ease;
+                }
+                .electrical-thumb-card:hover {
+                  transform: translateY(-4px);
+                  box-shadow: 0 12px 24px rgba(50, 71, 99, 0.16);
+                  border-color: #E87A00;
+                }
+                .electrical-thumb-img {
+                  width: 100%;
+                  height: 100%;
+                  object-fit: cover;
+                  display: block;
+                  transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                .electrical-thumb-card:hover .electrical-thumb-img {
+                  transform: scale(1.05);
+                }
+                .electrical-thumb-overlay {
+                  position: absolute;
+                  inset: 0;
+                  background: linear-gradient(180deg, rgba(50, 71, 99, 0.2) 0%, rgba(50, 71, 99, 0.6) 100%);
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  opacity: 0;
+                  transition: opacity 250ms ease;
+                  z-index: 3;
+                }
+                .electrical-thumb-card:hover .electrical-thumb-overlay {
+                  opacity: 1;
+                }
+                .electrical-thumb-icon {
+                  width: 44px;
+                  height: 44px;
+                  border-radius: 50%;
+                  background-color: #FFFFFF;
+                  display: flex;
+                  align-items: center;
+                  justify-content: center;
+                  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                  transform: scale(0.85);
+                  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+                }
+                .electrical-thumb-card:hover .electrical-thumb-icon {
+                  transform: scale(1);
+                }
+                @media (max-width: 992px) {
+                  .electrical-gallery-grid {
+                    grid-template-columns: repeat(2, 1fr);
+                    gap: 1rem;
+                  }
+                }
+                @media (max-width: 576px) {
+                  .electrical-gallery-grid {
+                    grid-template-columns: 1fr;
+                    gap: 1rem;
+                  }
+                }
+              `}</style>
+
+              {/* Gallery Grid (4 Columns Desktop, 2 Tablet, 1 Mobile) */}
+              <div className="electrical-gallery-grid">
                 {ELECTRICAL_GALLERY_MEDIA.slice(0, visibleCount).map((item, index) => (
                   <div 
                     key={item.id}
                     onClick={() => setLightboxIndex(index)}
-                    className="solar-thumb-card"
+                    className="electrical-thumb-card"
                     role="button"
                     tabIndex={0}
                     onKeyDown={(e) => {
@@ -220,12 +295,12 @@ export default function Projects() {
                     aria-label={`View ${item.alt}`}
                   >
                     {item.type === 'video' ? (
-                      <div style={{ position: 'relative', width: '100%', height: '100%', backgroundColor: '#0F172A' }}>
+                      <div style={{ position: 'relative', width: '100%', height: '100%', backgroundColor: '#0F172A', overflow: 'hidden' }}>
                         <video 
                           src={item.src}
                           muted
                           preload="metadata"
-                          className="solar-thumb-img"
+                          className="electrical-thumb-img"
                           style={{ filter: 'brightness(0.85)' }}
                         />
                         <span 
@@ -256,12 +331,12 @@ export default function Projects() {
                         src={item.src} 
                         alt={item.alt} 
                         loading="lazy"
-                        className="solar-thumb-img"
+                        className="electrical-thumb-img"
                       />
                     )}
 
-                    <div className="solar-thumb-overlay">
-                      <div className="solar-thumb-icon">
+                    <div className="electrical-thumb-overlay">
+                      <div className="electrical-thumb-icon">
                         {item.type === 'video' ? (
                           <Play size={20} color="#E87A00" fill="#E87A00" style={{ marginLeft: '2px' }} />
                         ) : (
