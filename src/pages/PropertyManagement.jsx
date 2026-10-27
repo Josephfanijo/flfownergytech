@@ -127,8 +127,8 @@ export default function PropertyManagement() {
                   Request Property Management
                   <ArrowRight size={16} />
                 </a>
-                <a href="#offerings" className="btn btn-outline">
-                  View Management Scope
+                <a href="/projects?category=property-management" className="btn btn-outline">
+                  VIEW PROJECT
                 </a>
               </div>
             </div>

@@ -48,8 +48,8 @@ export default function ElectricalInstallation() {
                   Request an Electrical Quote
                   <ArrowRight size={16} />
                 </a>
-                <a href="#offerings" className="btn btn-outline">
-                  View Technical Capabilities
+                <a href="/projects?category=electrical-installation" className="btn btn-outline">
+                  VIEW PROJECT
                 </a>
               </div>
             </div>

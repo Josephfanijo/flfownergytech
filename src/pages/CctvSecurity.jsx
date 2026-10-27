@@ -49,8 +49,8 @@ export default function CctvSecurity() {
                   Request a Security Quote
                   <ArrowRight size={16} />
                 </a>
-                <a href="#offerings" className="btn btn-outline">
-                  View Surveillance Solutions
+                <a href="/projects?category=cctv-security" className="btn btn-outline">
+                  VIEW PROJECT
                 </a>
               </div>
             </div>

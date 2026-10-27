@@ -125,8 +125,8 @@ export default function SolarEnergy() {
                   Request Solar System Sizing
                   <ArrowRight size={16} />
                 </a>
-                <a href="#offerings" className="btn btn-outline">
-                  View Solar Components
+                <a href="/projects?category=solar-energy" className="btn btn-outline">
+                  VIEW PROJECT
                 </a>
               </div>
             </div>
