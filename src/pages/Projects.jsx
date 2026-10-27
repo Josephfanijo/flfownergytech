@@ -5,6 +5,8 @@ import {
   CheckCircle2, 
   ArrowRight,
   Sun,
+  Zap,
+  Play,
   Maximize2,
   ChevronLeft,
   ChevronRight,
@@ -12,6 +14,7 @@ import {
 } from 'lucide-react';
 import { PROJECTS_DATA } from '../data/companyData';
 import { SOLAR_GALLERY_IMAGES } from '../data/solarGalleryData';
+import { ELECTRICAL_GALLERY_MEDIA } from '../data/electricalGalleryData';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 
 export default function Projects() {
@@ -32,15 +35,22 @@ export default function Projects() {
     ? PROJECTS_DATA.filter(p => p.category !== "solar-energy") 
     : PROJECTS_DATA.filter(p => p.category === activeFilter && p.category !== "solar-energy");
 
+  const currentGallery = activeFilter === 'electrical-installation' 
+    ? ELECTRICAL_GALLERY_MEDIA 
+    : SOLAR_GALLERY_IMAGES;
+  const currentMedia = (lightboxIndex !== null && currentGallery[lightboxIndex]) 
+    ? currentGallery[lightboxIndex] 
+    : null;
+
   // Handle keyboard navigation for lightbox
   useEffect(() => {
-    if (lightboxIndex === null) return;
+    if (lightboxIndex === null || !currentGallery.length) return;
 
     const handleKeyDown = (e) => {
       if (e.key === 'ArrowRight') {
-        setLightboxIndex((prev) => (prev + 1) % SOLAR_GALLERY_IMAGES.length);
+        setLightboxIndex((prev) => (prev + 1) % currentGallery.length);
       } else if (e.key === 'ArrowLeft') {
-        setLightboxIndex((prev) => (prev - 1 + SOLAR_GALLERY_IMAGES.length) % SOLAR_GALLERY_IMAGES.length);
+        setLightboxIndex((prev) => (prev - 1 + currentGallery.length) % currentGallery.length);
       } else if (e.key === 'Escape') {
         setLightboxIndex(null);
       }
@@ -54,18 +64,18 @@ export default function Projects() {
       window.removeEventListener('keydown', handleKeyDown);
       document.body.style.overflow = originalOverflow;
     };
-  }, [lightboxIndex]);
+  }, [lightboxIndex, currentGallery]);
 
   const handleLoadMore = () => {
-    setVisibleCount((prev) => Math.min(prev + 16, SOLAR_GALLERY_IMAGES.length));
+    setVisibleCount((prev) => Math.min(prev + 16, currentGallery.length));
   };
 
   const handlePrevImage = () => {
-    setLightboxIndex((prev) => (prev - 1 + SOLAR_GALLERY_IMAGES.length) % SOLAR_GALLERY_IMAGES.length);
+    setLightboxIndex((prev) => (prev - 1 + currentGallery.length) % currentGallery.length);
   };
 
   const handleNextImage = () => {
-    setLightboxIndex((prev) => (prev + 1) % SOLAR_GALLERY_IMAGES.length);
+    setLightboxIndex((prev) => (prev + 1) % currentGallery.length);
   };
 
   return (
@@ -96,9 +106,8 @@ export default function Projects() {
                 className={`filter-btn ${activeFilter === f.id ? 'active' : ''}`}
                 onClick={() => {
                   setActiveFilter(f.id);
-                  if (f.id === 'solar-energy') {
-                    setVisibleCount(16);
-                  }
+                  setVisibleCount(16);
+                  setLightboxIndex(null);
                 }}
                 role="tab"
                 aria-selected={activeFilter === f.id}
@@ -167,6 +176,125 @@ export default function Projects() {
                   </div>
                 </article>
               ))}
+            </div>
+          )}
+
+          {/* Dedicated Electrical Installation Field Projects & Video Gallery */}
+          {activeFilter === 'electrical-installation' && (
+            <div 
+              className="electrical-field-gallery"
+              style={{ 
+                marginTop: '3.5rem',
+                paddingTop: '2.5rem',
+                borderTop: '1px solid #E2E8F0'
+              }}
+            >
+              <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+                <span className="badge-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.75rem' }}>
+                  <Zap size={15} color="#E87A00" />
+                  Field Installation Gallery
+                </span>
+                <h3 style={{ fontSize: '1.9rem', color: '#324763', marginBottom: '0.75rem' }}>
+                  Electrical Engineering & Distribution Deployments
+                </h3>
+                <p style={{ color: '#4A5B70', maxWidth: '680px', margin: '0 auto', fontSize: '1rem', lineHeight: '1.7' }}>
+                  Browse authentic field photography and footage documenting our conduit piping, 
+                  distribution board wiring, high-load switchgear, and certified electrical engineering installations.
+                </p>
+              </div>
+
+              {/* Gallery Grid */}
+              <div className="solar-gallery-grid">
+                {ELECTRICAL_GALLERY_MEDIA.slice(0, visibleCount).map((item, index) => (
+                  <div 
+                    key={item.id}
+                    onClick={() => setLightboxIndex(index)}
+                    className="solar-thumb-card"
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                      if (e.key === 'Enter' || e.key === ' ') {
+                        setLightboxIndex(index);
+                      }
+                    }}
+                    aria-label={`View ${item.alt}`}
+                  >
+                    {item.type === 'video' ? (
+                      <div style={{ position: 'relative', width: '100%', height: '100%', backgroundColor: '#0F172A' }}>
+                        <video 
+                          src={item.src}
+                          muted
+                          preload="metadata"
+                          className="solar-thumb-img"
+                          style={{ filter: 'brightness(0.85)' }}
+                        />
+                        <span 
+                          style={{
+                            position: 'absolute',
+                            top: '0.75rem',
+                            left: '0.75rem',
+                            backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                            backdropFilter: 'blur(4px)',
+                            color: '#FFFFFF',
+                            fontSize: '0.72rem',
+                            fontWeight: 700,
+                            padding: '0.2rem 0.55rem',
+                            borderRadius: '4px',
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: '0.3rem',
+                            border: '1px solid rgba(255, 255, 255, 0.2)',
+                            zIndex: 2
+                          }}
+                        >
+                          <Play size={10} fill="#E87A00" color="#E87A00" />
+                          VIDEO
+                        </span>
+                      </div>
+                    ) : (
+                      <img 
+                        src={item.src} 
+                        alt={item.alt} 
+                        loading="lazy"
+                        className="solar-thumb-img"
+                      />
+                    )}
+
+                    <div className="solar-thumb-overlay">
+                      <div className="solar-thumb-icon">
+                        {item.type === 'video' ? (
+                          <Play size={20} color="#E87A00" fill="#E87A00" style={{ marginLeft: '2px' }} />
+                        ) : (
+                          <Maximize2 size={20} color="#E87A00" />
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+
+              {/* Gallery Pagination / Load More Footer */}
+              <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+                <p style={{ color: '#718296', fontSize: '0.92rem', marginBottom: '1.25rem' }}>
+                  Showing {Math.min(visibleCount, ELECTRICAL_GALLERY_MEDIA.length)} of {ELECTRICAL_GALLERY_MEDIA.length} Field Media (16 Photos, 2 Videos)
+                </p>
+                {visibleCount < ELECTRICAL_GALLERY_MEDIA.length && (
+                  <button
+                    type="button"
+                    onClick={handleLoadMore}
+                    className="btn btn-outline"
+                    style={{
+                      borderColor: '#324763',
+                      color: '#324763',
+                      fontWeight: 600,
+                      padding: '0.75rem 2.2rem',
+                      fontSize: '0.95rem'
+                    }}
+                  >
+                    Load More Electrical Media ({ELECTRICAL_GALLERY_MEDIA.length - visibleCount} remaining)
+                  </button>
+                )}
+              </div>
             </div>
           )}
 
@@ -367,10 +495,10 @@ export default function Projects() {
                   letterSpacing: '0.04em'
                 }}
               >
-                Solar Energy
+                {activeFilter === 'electrical-installation' ? 'Electrical Installation' : 'Solar Energy'}
               </span>
               <span style={{ fontSize: '0.95rem', color: 'rgba(255, 255, 255, 0.9)', fontWeight: 500 }}>
-                Photo {lightboxIndex + 1} of {SOLAR_GALLERY_IMAGES.length}
+                {currentMedia?.type === 'video' ? 'Video' : 'Photo'} {lightboxIndex + 1} of {currentGallery.length}
               </span>
             </div>
 
@@ -456,7 +584,7 @@ export default function Projects() {
             <ChevronRight size={28} />
           </button>
 
-          {/* Main Image Container */}
+          {/* Main Media Container */}
           <div 
             style={{
               maxWidth: '92vw',
@@ -468,17 +596,36 @@ export default function Projects() {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            <img 
-              src={SOLAR_GALLERY_IMAGES[lightboxIndex].src}
-              alt={SOLAR_GALLERY_IMAGES[lightboxIndex].alt}
-              style={{
-                maxWidth: '100%',
-                maxHeight: '80vh',
-                objectFit: 'contain',
-                borderRadius: '8px',
-                boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
-              }}
-            />
+            {currentMedia?.type === 'video' ? (
+              <video 
+                key={currentMedia.src}
+                src={currentMedia.src}
+                controls
+                autoPlay
+                playsInline
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '78vh',
+                  borderRadius: '8px',
+                  backgroundColor: '#000000',
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.7)'
+                }}
+              >
+                Your browser does not support HTML5 video playback.
+              </video>
+            ) : (
+              <img 
+                src={currentMedia?.src}
+                alt={currentMedia?.alt}
+                style={{
+                  maxWidth: '100%',
+                  maxHeight: '80vh',
+                  objectFit: 'contain',
+                  borderRadius: '8px',
+                  boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)'
+                }}
+              />
+            )}
           </div>
 
           {/* Bottom Navigation Hint */}

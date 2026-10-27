@@ -58,7 +58,7 @@ export default function Home() {
               <div className="hero-image-card">
                 <img 
                   src="/images/flownergy-engineer.jpg" 
-                  alt="FLOWNERGY Certified Site Engineer" 
+                  alt="FLOWNERGY Certified Field Engineering Team" 
                   className="hero-engineer-img"
                   loading="eager"
                 />
