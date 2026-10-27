@@ -1276,14 +1276,14 @@ p {
 }
 
 @media (max-width: 860px) {
+  /* Remove entire top toolbar on mobile */
+  .topbar {
+    display: none;
+  }
+
   .topbar-content {
     justify-content: center;
     text-align: center;
-  }
-
-  /* Hide email, phone, and working hours on mobile — keep bar visible on desktop */
-  .topbar-left {
-    display: none;
   }
 
   .nav-menu {
