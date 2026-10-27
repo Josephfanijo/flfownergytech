@@ -76,8 +76,12 @@ export default function ServicesOverview() {
                     </div>
 
                     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                      <Link to={service.path} className="btn btn-navy">
-                        View Service Details
+                      <Link
+                        to={`/projects?category=${service.id}`}
+                        className="btn btn-navy"
+                        id={`view-project-btn-${service.id}`}
+                      >
+                        VIEW PROJECT
                         <ArrowRight size={16} />
                       </Link>
                       <Link 

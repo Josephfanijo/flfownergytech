@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { 
   MapPin, 
   CheckCircle2, 
@@ -18,10 +18,27 @@ import { ELECTRICAL_GALLERY_MEDIA } from '../data/electricalGalleryData';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 
 export default function Projects() {
+  const location = useLocation();
   const [activeFilter, setActiveFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
   const [visibleCount, setVisibleCount] = useState(16);
   const [lightboxIndex, setLightboxIndex] = useState(null);
+
+  // Read ?category= query param and activate the matching filter tab
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const cat = params.get('category');
+    const validFilters = ['electrical-installation', 'solar-energy', 'cctv-security', 'property-management'];
+    if (cat && validFilters.includes(cat)) {
+      setActiveFilter(cat);
+      setVisibleCount(16);
+      // Scroll to the projects section smoothly after the filter is applied
+      setTimeout(() => {
+        const el = document.getElementById('projects-section');
+        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }, 100);
+    }
+  }, [location.search]);
 
   const filters = [
     { id: "all", label: "All Projects" },
@@ -86,7 +103,7 @@ export default function Projects() {
         crumbs={[{ label: "Projects" }]}
       />
 
-      <section className="section">
+      <section className="section" id="projects-section">
         <div className="container">
           <div className="section-header">
             <span className="badge-tag">Technical Portfolio</span>

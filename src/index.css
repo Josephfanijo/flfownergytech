@@ -1281,6 +1281,11 @@ p {
     text-align: center;
   }
 
+  /* Hide email, phone, and working hours on mobile — keep bar visible on desktop */
+  .topbar-left {
+    display: none;
+  }
+
   .nav-menu {
     display: none;
   }
