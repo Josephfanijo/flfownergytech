@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   ArrowRight, 
   CheckCircle2 
@@ -9,6 +9,7 @@ import { getServiceIcon } from '../utils/icons';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 
 export default function ServicesOverview() {
+  const navigate = useNavigate();
 
   return (
     <div>
@@ -17,6 +18,23 @@ export default function ServicesOverview() {
         subtitle="Specialized engineering, clean energy generation, electronic security surveillance, and facility management services for Nigerian properties."
         crumbs={[{ label: "Services" }]}
       />
+
+      <style>{`
+        .service-overview-card {
+          transition: transform 250ms ease, box-shadow 250ms ease, border-color 250ms ease;
+        }
+        .service-overview-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 16px 36px rgba(50, 71, 99, 0.12) !important;
+          border-color: #CBD5E1 !important;
+        }
+        .service-overview-card:hover .service-card-title-link {
+          color: #E87A00 !important;
+        }
+        .service-overview-card:hover img {
+          transform: scale(1.03);
+        }
+      `}</style>
 
       {/* Services Introduction */}
       <section className="section" id="services-intro">
@@ -38,6 +56,13 @@ export default function ServicesOverview() {
                 <div 
                   key={service.id} 
                   id={service.id}
+                  className="service-overview-card"
+                  onClick={(e) => {
+                    // Navigate only if the click did not originate from a nested button or link
+                    if (!e.target.closest('a, button')) {
+                      navigate(service.path);
+                    }
+                  }}
                   style={{
                     display: 'grid',
                     gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))',
@@ -47,7 +72,8 @@ export default function ServicesOverview() {
                     backgroundColor: '#FFFFFF',
                     borderRadius: '20px',
                     border: '1px solid #E2E8F0',
-                    boxShadow: '0 8px 24px rgba(50,71,99,0.06)'
+                    boxShadow: '0 8px 24px rgba(50,71,99,0.06)',
+                    cursor: 'pointer'
                   }}
                 >
                   {/* Left Column or Right Column depending on odd/even */}
@@ -58,7 +84,13 @@ export default function ServicesOverview() {
                     </div>
 
                     <h2 style={{ fontSize: '2rem', marginBottom: '1rem', color: '#324763' }}>
-                      {service.title}
+                      <Link 
+                        to={service.path}
+                        className="service-card-title-link"
+                        style={{ color: 'inherit', textDecoration: 'none', transition: 'color 200ms ease' }}
+                      >
+                        {service.title}
+                      </Link>
                     </h2>
 
                     <p style={{ fontSize: '1.05rem', lineHeight: '1.7', marginBottom: '1.5rem', color: '#4A5B70' }}>
@@ -77,7 +109,15 @@ export default function ServicesOverview() {
 
                     <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
                       <Link
-                        to={`/projects?category=${service.id}`}
+                        to={service.path}
+                        className="btn btn-outline"
+                        id={`view-service-btn-${service.id}`}
+                      >
+                        Explore Service
+                        <ArrowRight size={16} />
+                      </Link>
+                      <Link
+                        to={`/projects?category=${service.id}#${service.id}`}
                         className="btn btn-navy"
                         id={`view-project-btn-${service.id}`}
                       >
@@ -95,14 +135,18 @@ export default function ServicesOverview() {
 
                   {/* Image Column */}
                   <div style={{ order: isEven ? 1 : 2 }}>
-                    <div style={{ borderRadius: '16px', overflow: 'hidden', boxShadow: '0 12px 28px rgba(50,71,99,0.12)', height: '360px' }}>
+                    <Link 
+                      to={service.path}
+                      aria-label={`View ${service.title} service page`}
+                      style={{ display: 'block', borderRadius: '16px', overflow: 'hidden', boxShadow: '0 12px 28px rgba(50,71,99,0.12)', height: '360px' }}
+                    >
                       <img 
                         src={service.image} 
                         alt={service.title} 
-                        style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+                        style={{ width: '100%', height: '100%', objectFit: 'cover', transition: 'transform 350ms ease' }}
                         loading="lazy" 
                       />
-                    </div>
+                    </Link>
                   </div>
                 </div>
               );

@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Camera, 
   CheckCircle2, 
@@ -49,9 +50,9 @@ export default function CctvSecurity() {
                   Request a Security Quote
                   <ArrowRight size={16} />
                 </a>
-                <a href="/projects?category=cctv-security" className="btn btn-outline">
+                <Link to="/projects?category=cctv-security#cctv-security" className="btn btn-outline">
                   VIEW PROJECT
-                </a>
+                </Link>
               </div>
             </div>
 

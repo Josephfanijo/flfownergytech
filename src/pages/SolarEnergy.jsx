@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Sun, 
   CheckCircle2, 
@@ -125,9 +126,9 @@ export default function SolarEnergy() {
                   Request Solar System Sizing
                   <ArrowRight size={16} />
                 </a>
-                <a href="/projects?category=solar-energy" className="btn btn-outline">
+                <Link to="/projects?category=solar-energy#solar-energy" className="btn btn-outline">
                   VIEW PROJECT
-                </a>
+                </Link>
               </div>
             </div>
 

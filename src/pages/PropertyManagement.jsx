@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Building, 
   CheckCircle2, 
@@ -127,9 +128,9 @@ export default function PropertyManagement() {
                   Request Property Management
                   <ArrowRight size={16} />
                 </a>
-                <a href="/projects?category=property-management" className="btn btn-outline">
+                <Link to="/projects?category=property-management#property-management" className="btn btn-outline">
                   VIEW PROJECT
-                </a>
+                </Link>
               </div>
             </div>
 

@@ -157,16 +157,6 @@ export const SERVICES = [
 
 export const PROJECTS_DATA = [
   {
-    id: "proj-1",
-    title: "Commercial Office Complex Electrical Distribution",
-    service: "Electrical Installation",
-    category: "electrical-installation",
-    location: "Commercial District, Nigeria",
-    description: "Full electrical installation including main distribution boards, cable trays, energy-efficient LED lighting, and surge suppression for a 3-floor office building.",
-    image: "/images/electrical.jpg",
-    specs: ["Main DB & Sub-panel wiring", "Conduit & cable trunking", "Surge protection", "Load balancing"]
-  },
-  {
     id: "proj-2",
     title: "15kVA Commercial Solar Backup Solution",
     service: "Solar Energy",
@@ -195,16 +185,6 @@ export const PROJECTS_DATA = [
     description: "Comprehensive facility supervision encompassing routine electrical maintenance, water distribution oversight, tenant support coordination, and regular site condition reporting.",
     image: "/images/property.jpg",
     specs: ["Facility supervision", "Preventive technical maintenance", "Tenant liaison", "Quarterly inspection audits"]
-  },
-  {
-    id: "proj-5",
-    title: "Residential Power Rewiring & Surge Protection",
-    service: "Electrical Installation",
-    category: "electrical-installation",
-    location: "Private Residence, Nigeria",
-    description: "Complete electrical safety overhaul, modern circuit breakers replacement, earthing upgrade, and high-voltage surge protective device integration.",
-    image: "/images/electrical.jpg",
-    specs: ["Consumer unit upgrade", "Copper rod earthing", "Earthing resistance audit", "Fire-resistant cables"]
   },
   {
     id: "proj-6",

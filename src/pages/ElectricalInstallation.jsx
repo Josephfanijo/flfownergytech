@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { 
   Zap, 
   ShieldCheck, 
@@ -48,9 +49,9 @@ export default function ElectricalInstallation() {
                   Request an Electrical Quote
                   <ArrowRight size={16} />
                 </a>
-                <a href="/projects?category=electrical-installation" className="btn btn-outline">
+                <Link to="/projects?category=electrical-installation#electrical-installation" className="btn btn-outline">
                   VIEW PROJECT
-                </a>
+                </Link>
               </div>
             </div>
 

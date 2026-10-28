@@ -18,13 +18,13 @@ import Contact from './pages/Contact';
 
 // Scroll to top helper on route change (unless hash link is present)
 function ScrollToTop() {
-  const { pathname, hash } = useLocation();
+  const { pathname, search, hash } = useLocation();
 
   useEffect(() => {
-    if (!hash) {
+    if (!hash && !search.includes('category=')) {
       window.scrollTo(0, 0);
     }
-  }, [pathname, hash]);
+  }, [pathname, search, hash]);
 
   return null;
 }

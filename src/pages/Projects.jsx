@@ -19,26 +19,54 @@ import BreadcrumbBanner from '../components/BreadcrumbBanner';
 
 export default function Projects() {
   const location = useLocation();
-  const [activeFilter, setActiveFilter] = useState("all");
+
+  // Helper to determine initial filter from URL search param or hash
+  const getInitialFilter = () => {
+    if (typeof window === 'undefined') return 'all';
+    const params = new URLSearchParams(window.location.search);
+    const cat = params.get('category');
+    const hash = window.location.hash.replace('#', '');
+    const validFilters = ['electrical-installation', 'solar-energy', 'cctv-security', 'property-management'];
+    if (cat && validFilters.includes(cat)) return cat;
+    if (hash && validFilters.includes(hash)) return hash;
+    return 'all';
+  };
+
+  const [activeFilter, setActiveFilter] = useState(getInitialFilter);
   const [selectedProject, setSelectedProject] = useState(null);
   const [visibleCount, setVisibleCount] = useState(16);
   const [lightboxIndex, setLightboxIndex] = useState(null);
 
-  // Read ?category= query param and activate the matching filter tab
+  // Read ?category= query param or hash and activate the matching filter tab & scroll to section
   useEffect(() => {
     const params = new URLSearchParams(location.search);
     const cat = params.get('category');
+    const hash = location.hash ? location.hash.replace('#', '') : '';
     const validFilters = ['electrical-installation', 'solar-energy', 'cctv-security', 'property-management'];
+    
+    let targetFilter = null;
     if (cat && validFilters.includes(cat)) {
-      setActiveFilter(cat);
-      setVisibleCount(16);
-      // Scroll to the projects section smoothly after the filter is applied
-      setTimeout(() => {
-        const el = document.getElementById('projects-section');
-        if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }, 100);
+      targetFilter = cat;
+    } else if (hash && validFilters.includes(hash)) {
+      targetFilter = hash;
     }
-  }, [location.search]);
+
+    if (targetFilter) {
+      setActiveFilter(targetFilter);
+      setVisibleCount(16);
+    }
+
+    const targetId = hash || targetFilter;
+    if (targetId) {
+      const scrollTimer = setTimeout(() => {
+        const el = document.getElementById(targetId) || document.getElementById('projects-section');
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 150);
+      return () => clearTimeout(scrollTimer);
+    }
+  }, [location.search, location.hash]);
 
   const filters = [
     { id: "all", label: "All Projects" },
@@ -95,6 +123,67 @@ export default function Projects() {
     setLightboxIndex((prev) => (prev + 1) % currentGallery.length);
   };
 
+  const renderProjectsGrid = (projects) => (
+    <div className="projects-grid">
+      {projects.map((project) => (
+        <article key={project.id} className="project-card">
+          <div className="project-media">
+            <img src={project.image} alt={project.title} loading="lazy" />
+            <span className="project-category-badge">{project.service}</span>
+          </div>
+          <div className="project-body">
+            <span className="project-location">
+              <MapPin size={14} color="#E87A00" />
+              {project.location}
+            </span>
+            <h3>{project.title}</h3>
+            <p>{project.description}</p>
+
+            {/* Technical Specs Tags */}
+            {project.specs && (
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.25rem' }}>
+                {project.specs.map((spec, sIdx) => (
+                  <span 
+                    key={sIdx}
+                    style={{
+                      fontSize: '0.76rem',
+                      backgroundColor: '#F5F7F9',
+                      color: '#324763',
+                      padding: '0.25rem 0.6rem',
+                      borderRadius: '4px',
+                      border: '1px solid #E2E8F0',
+                      fontWeight: 500
+                    }}
+                  >
+                    {spec}
+                  </span>
+                ))}
+              </div>
+            )}
+
+            <div style={{ marginTop: 'auto', paddingTop: '1.2rem', borderTop: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+              <button 
+                type="button" 
+                onClick={() => setSelectedProject(project)}
+                className="service-card-link"
+                style={{ fontSize: '0.9rem' }}
+              >
+                <span>View Scope</span>
+                <ArrowRight size={14} />
+              </button>
+              <Link 
+                to={`/contact?service=${encodeURIComponent(project.service)}#quote`}
+                className="btn btn-sm btn-outline"
+              >
+                Request Similar Quote
+              </Link>
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  );
+
   return (
     <div>
       <BreadcrumbBanner 
@@ -119,6 +208,7 @@ export default function Projects() {
             {filters.map(f => (
               <button
                 key={f.id}
+                id={`tab-${f.id}`}
                 type="button"
                 className={`filter-btn ${activeFilter === f.id ? 'active' : ''}`}
                 onClick={() => {
@@ -134,78 +224,56 @@ export default function Projects() {
             ))}
           </div>
 
-          {/* Projects Grid (Non-solar project categories) */}
-          {activeFilter !== 'solar-energy' && filteredProjects.length > 0 && (
-            <div className="projects-grid">
-              {filteredProjects.map((project) => (
-                <article key={project.id} className="project-card">
-                  <div className="project-media">
-                    <img src={project.image} alt={project.title} loading="lazy" />
-                    <span className="project-category-badge">{project.service}</span>
-                  </div>
-                  <div className="project-body">
-                    <span className="project-location">
-                      <MapPin size={14} color="#E87A00" />
-                      {project.location}
-                    </span>
-                    <h3>{project.title}</h3>
-                    <p>{project.description}</p>
+          {/* All Projects Section */}
+          {activeFilter === 'all' && (
+            <div 
+              id="all-projects" 
+              className="project-category-section" 
+              style={{ scrollMarginTop: '100px', marginTop: '2rem' }}
+            >
+              {filteredProjects.length > 0 && renderProjectsGrid(filteredProjects)}
+            </div>
+          )}
 
-                    {/* Technical Specs Tags */}
-                    {project.specs && (
-                      <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.4rem', marginBottom: '1.25rem' }}>
-                        {project.specs.map((spec, sIdx) => (
-                          <span 
-                            key={sIdx}
-                            style={{
-                              fontSize: '0.76rem',
-                              backgroundColor: '#F5F7F9',
-                              color: '#324763',
-                              padding: '0.25rem 0.6rem',
-                              borderRadius: '4px',
-                              border: '1px solid #E2E8F0',
-                              fontWeight: 500
-                            }}
-                          >
-                            {spec}
-                          </span>
-                        ))}
-                      </div>
-                    )}
+          {/* CCTV & Security Systems Section */}
+          {activeFilter === 'cctv-security' && (
+            <div 
+              id="cctv-security" 
+              className="project-category-section" 
+              style={{ scrollMarginTop: '100px', marginTop: '2rem' }}
+            >
+              {filteredProjects.length > 0 && renderProjectsGrid(filteredProjects)}
+            </div>
+          )}
 
-                    <div style={{ marginTop: 'auto', paddingTop: '1.2rem', borderTop: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                      <button 
-                        type="button" 
-                        onClick={() => setSelectedProject(project)}
-                        className="service-card-link"
-                        style={{ fontSize: '0.9rem' }}
-                      >
-                        <span>View Scope</span>
-                        <ArrowRight size={14} />
-                      </button>
-                      <Link 
-                        to={`/contact?service=${encodeURIComponent(project.service)}#quote`}
-                        className="btn btn-sm btn-outline"
-                      >
-                        Request Similar Quote
-                      </Link>
-                    </div>
-                  </div>
-                </article>
-              ))}
+          {/* Property Management Section */}
+          {activeFilter === 'property-management' && (
+            <div 
+              id="property-management" 
+              className="project-category-section" 
+              style={{ scrollMarginTop: '100px', marginTop: '2rem' }}
+            >
+              {filteredProjects.length > 0 && renderProjectsGrid(filteredProjects)}
             </div>
           )}
 
           {/* Dedicated Electrical Installation Field Projects & Video Gallery */}
           {activeFilter === 'electrical-installation' && (
             <div 
-              className="electrical-field-gallery"
-              style={{ 
-                marginTop: '3.5rem',
-                paddingTop: '2.5rem',
-                borderTop: '1px solid #E2E8F0'
-              }}
+              id="electrical-installation"
+              className="project-category-section"
+              style={{ scrollMarginTop: '100px' }}
             >
+              {filteredProjects.length > 0 && renderProjectsGrid(filteredProjects)}
+
+              <div 
+                className="electrical-field-gallery"
+                style={{ 
+                  marginTop: filteredProjects.length > 0 ? '3.5rem' : '1.5rem',
+                  paddingTop: filteredProjects.length > 0 ? '2.5rem' : '0',
+                  borderTop: filteredProjects.length > 0 ? '1px solid #E2E8F0' : 'none'
+                }}
+              >
               <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
                 <span className="badge-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.75rem' }}>
                   <Zap size={15} color="#E87A00" />
@@ -388,16 +456,19 @@ export default function Projects() {
                 )}
               </div>
             </div>
-          )}
+          </div>
+        )}
 
-          {/* Dedicated Solar Energy Field Projects Gallery */}
-          {activeFilter === 'solar-energy' && (
-            <div 
-              className="solar-field-gallery"
-              style={{ 
-                marginTop: '2.5rem' 
-              }}
-            >
+        {/* Dedicated Solar Energy Field Projects Gallery */}
+        {activeFilter === 'solar-energy' && (
+          <div 
+            id="solar-energy"
+            className="solar-field-gallery project-category-section"
+            style={{ 
+              marginTop: '2.5rem',
+              scrollMarginTop: '100px'
+            }}
+          >
               <style>{`
                 .solar-gallery-grid {
                   display: grid;
