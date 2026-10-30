@@ -10,11 +10,13 @@ import {
   Maximize2,
   ChevronLeft,
   ChevronRight,
-  X
+  X,
+  Camera
 } from 'lucide-react';
 import { PROJECTS_DATA } from '../data/companyData';
 import { SOLAR_GALLERY_IMAGES } from '../data/solarGalleryData';
 import { ELECTRICAL_GALLERY_MEDIA } from '../data/electricalGalleryData';
+import { CCTV_GALLERY_MEDIA } from '../data/cctvGalleryData';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 
 export default function Projects() {
@@ -36,6 +38,7 @@ export default function Projects() {
   const [selectedProject, setSelectedProject] = useState(null);
   const [visibleCount, setVisibleCount] = useState(16);
   const [lightboxIndex, setLightboxIndex] = useState(null);
+  const [cctvInlinePlaying, setCctvInlinePlaying] = useState(false);
 
   // Read ?category= query param or hash and activate the matching filter tab & scroll to section
   useEffect(() => {
@@ -54,6 +57,7 @@ export default function Projects() {
     if (targetFilter) {
       setActiveFilter(targetFilter);
       setVisibleCount(16);
+      setCctvInlinePlaying(false);
     }
 
     const targetId = hash || targetFilter;
@@ -80,9 +84,34 @@ export default function Projects() {
     ? PROJECTS_DATA.filter(p => p.category !== "solar-energy") 
     : PROJECTS_DATA.filter(p => p.category === activeFilter && p.category !== "solar-energy");
 
+  const cctvVideoProject = {
+    id: "proj-cctv-4cam",
+    title: "Four-Camera HD IP CCTV Surveillance Deployment",
+    service: "CCTV & Security Systems",
+    category: "cctv-security",
+    location: "Residential Estate, Nigeria",
+    description: "Live on-site engineering footage of FLOWNERGY technical personnel carrying out a 4-camera IP surveillance deployment, including conduit piping, tamper-resistant mounting, precision alignment, and mobile live-view setup.",
+    image: "/images/projects/cctv-security/cctv-video-thumbnail.jpg",
+    video: "/images/projects/cctv-security/cctv-field-installation-video.mp4",
+    duration: "01:23",
+    specs: [
+      "4x High-Definition IP Cameras",
+      "Conduit Piping & Weatherproof Enclosures",
+      "Multi-Channel NVR Storage",
+      "Mobile Smartphone Live View"
+    ]
+  };
+
+  const cctvProjectsList = [
+    cctvVideoProject,
+    ...PROJECTS_DATA.filter(p => p.category === 'cctv-security')
+  ];
+
   const currentGallery = activeFilter === 'electrical-installation' 
     ? ELECTRICAL_GALLERY_MEDIA 
-    : SOLAR_GALLERY_IMAGES;
+    : activeFilter === 'cctv-security'
+      ? CCTV_GALLERY_MEDIA
+      : SOLAR_GALLERY_IMAGES;
   const currentMedia = (lightboxIndex !== null && currentGallery[lightboxIndex]) 
     ? currentGallery[lightboxIndex] 
     : null;
@@ -127,9 +156,91 @@ export default function Projects() {
     <div className="projects-grid">
       {projects.map((project) => (
         <article key={project.id} className="project-card">
-          <div className="project-media">
-            <img src={project.image} alt={project.title} loading="lazy" />
+          <div 
+            className="project-media"
+            style={{ position: 'relative', cursor: project.video ? 'pointer' : 'default', overflow: 'hidden' }}
+            onClick={() => {
+              if (project.video) {
+                setLightboxIndex(0);
+              }
+            }}
+          >
+            <img 
+              src={project.image} 
+              alt={project.title} 
+              loading="lazy" 
+              style={{ width: '100%', height: '100%', objectFit: 'cover' }}
+            />
             <span className="project-category-badge">{project.service}</span>
+
+            {project.video && (
+              <>
+                <span 
+                  style={{
+                    position: 'absolute',
+                    top: '1rem',
+                    right: '1rem',
+                    backgroundColor: 'rgba(232, 122, 0, 0.95)',
+                    color: '#FFFFFF',
+                    padding: '0.3rem 0.65rem',
+                    borderRadius: '4px',
+                    fontSize: '0.72rem',
+                    fontWeight: 700,
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: '0.35rem',
+                    boxShadow: '0 2px 8px rgba(0,0,0,0.25)',
+                    zIndex: 2
+                  }}
+                >
+                  <Play size={10} fill="#FFFFFF" color="#FFFFFF" />
+                  FIELD VIDEO
+                </span>
+                <div 
+                  className="project-video-overlay"
+                  style={{
+                    position: 'absolute',
+                    inset: 0,
+                    backgroundColor: 'rgba(50, 71, 99, 0.35)',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    gap: '0.5rem',
+                    transition: 'all 250ms ease'
+                  }}
+                >
+                  <div 
+                    style={{
+                      width: '56px',
+                      height: '56px',
+                      borderRadius: '50%',
+                      backgroundColor: '#E87A00',
+                      color: '#FFFFFF',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      boxShadow: '0 6px 20px rgba(232, 122, 0, 0.5)'
+                    }}
+                  >
+                    <Play size={24} fill="#FFFFFF" color="#FFFFFF" style={{ marginLeft: '3px' }} />
+                  </div>
+                  <span 
+                    style={{
+                      backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                      backdropFilter: 'blur(4px)',
+                      color: '#FFFFFF',
+                      fontSize: '0.75rem',
+                      fontWeight: 600,
+                      padding: '0.2rem 0.6rem',
+                      borderRadius: '4px'
+                    }}
+                  >
+                    Watch Footage ({project.duration || '01:23'})
+                  </span>
+                </div>
+              </>
+            )}
           </div>
           <div className="project-body">
             <span className="project-location">
@@ -161,16 +272,29 @@ export default function Projects() {
               </div>
             )}
 
-            <div style={{ marginTop: 'auto', paddingTop: '1.2rem', borderTop: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <button 
-                type="button" 
-                onClick={() => setSelectedProject(project)}
-                className="service-card-link"
-                style={{ fontSize: '0.9rem' }}
-              >
-                <span>View Scope</span>
-                <ArrowRight size={14} />
-              </button>
+            <div style={{ marginTop: 'auto', paddingTop: '1.2rem', borderTop: '1px solid #E2E8F0', display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '0.75rem' }}>
+              <div style={{ display: 'flex', gap: '0.65rem', alignItems: 'center' }}>
+                {project.video && (
+                  <button 
+                    type="button" 
+                    onClick={() => setLightboxIndex(0)}
+                    className="btn btn-sm btn-primary"
+                    style={{ display: 'inline-flex', alignItems: 'center', gap: '0.35rem', padding: '0.45rem 0.85rem' }}
+                  >
+                    <Play size={12} fill="#FFFFFF" color="#FFFFFF" />
+                    <span>Watch Video</span>
+                  </button>
+                )}
+                <button 
+                  type="button" 
+                  onClick={() => setSelectedProject(project)}
+                  className="service-card-link"
+                  style={{ fontSize: '0.9rem' }}
+                >
+                  <span>View Scope</span>
+                  <ArrowRight size={14} />
+                </button>
+              </div>
               <Link 
                 to={`/contact?service=${encodeURIComponent(project.service)}#quote`}
                 className="btn btn-sm btn-outline"
@@ -215,6 +339,7 @@ export default function Projects() {
                   setActiveFilter(f.id);
                   setVisibleCount(16);
                   setLightboxIndex(null);
+                  setCctvInlinePlaying(false);
                 }}
                 role="tab"
                 aria-selected={activeFilter === f.id}
@@ -242,7 +367,311 @@ export default function Projects() {
               className="project-category-section" 
               style={{ scrollMarginTop: '100px', marginTop: '2rem' }}
             >
-              {filteredProjects.length > 0 && renderProjectsGrid(filteredProjects)}
+              {cctvProjectsList.length > 0 && renderProjectsGrid(cctvProjectsList)}
+
+              {/* Dedicated CCTV Field Video Showcase */}
+              <div 
+                className="cctv-field-showcase"
+                style={{ 
+                  marginTop: '3.5rem',
+                  paddingTop: '2.5rem',
+                  borderTop: '1px solid #E2E8F0'
+                }}
+              >
+                <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+                  <span className="badge-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.75rem' }}>
+                    <Camera size={15} color="#E87A00" />
+                    Verified On-Site Video Footage
+                  </span>
+                  <h3 style={{ fontSize: '1.9rem', color: '#324763', marginBottom: '0.75rem' }}>
+                    CCTV Installation & Multi-Angle Surveillance Deployment
+                  </h3>
+                  <p style={{ color: '#4A5B70', maxWidth: '680px', margin: '0 auto', fontSize: '1rem', lineHeight: '1.7' }}>
+                    Watch FLOWNERGY technical personnel carrying out a 4-camera IP surveillance system installation, 
+                    showcasing proper conduit cabling, rigid weather-proof mounting, and live multi-camera monitoring.
+                  </p>
+                </div>
+
+                <style>{`
+                  .cctv-showcase-card {
+                    display: grid;
+                    grid-template-columns: minmax(300px, 380px) 1fr;
+                    gap: 2.75rem;
+                    align-items: center;
+                    background-color: #FFFFFF;
+                    border: 1px solid #E2E8F0;
+                    border-radius: 16px;
+                    padding: 2.5rem;
+                    box-shadow: 0 8px 30px rgba(50, 71, 99, 0.08);
+                  }
+                  .cctv-player-container {
+                    position: relative;
+                    width: 100%;
+                    max-width: 380px;
+                    margin: 0 auto;
+                    border-radius: 14px;
+                    overflow: hidden;
+                    background-color: #0F172A;
+                    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.25);
+                    aspect-ratio: 9 / 16;
+                    max-height: 540px;
+                  }
+                  .cctv-player-video {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                    display: block;
+                    background-color: #000000;
+                  }
+                  .cctv-play-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(180deg, rgba(15, 23, 42, 0.2) 0%, rgba(15, 23, 42, 0.7) 100%);
+                    display: flex;
+                    flex-direction: column;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    transition: background 250ms ease;
+                    z-index: 5;
+                  }
+                  .cctv-play-overlay:hover {
+                    background: linear-gradient(180deg, rgba(15, 23, 42, 0.1) 0%, rgba(15, 23, 42, 0.6) 100%);
+                  }
+                  .cctv-play-btn {
+                    width: 72px;
+                    height: 72px;
+                    border-radius: 50%;
+                    background-color: #E87A00;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 8px 24px rgba(232, 122, 0, 0.5);
+                    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+                  }
+                  .cctv-play-overlay:hover .cctv-play-btn {
+                    transform: scale(1.1);
+                  }
+                  @media (max-width: 900px) {
+                    .cctv-showcase-card {
+                      grid-template-columns: 1fr;
+                      padding: 1.75rem;
+                      gap: 2rem;
+                    }
+                    .cctv-player-container {
+                      max-width: 320px;
+                      max-height: 480px;
+                    }
+                  }
+                  @media (max-width: 480px) {
+                    .cctv-showcase-card {
+                      padding: 1.25rem;
+                    }
+                    .cctv-player-container {
+                      max-width: 100%;
+                      max-height: 440px;
+                    }
+                  }
+                `}</style>
+
+                <div className="cctv-showcase-card">
+                  {/* Video Player Column */}
+                  <div className="cctv-player-container">
+                    {cctvInlinePlaying ? (
+                      <video 
+                        src="/images/projects/cctv-security/cctv-field-installation-video.mp4"
+                        poster="/images/projects/cctv-security/cctv-video-thumbnail.jpg"
+                        controls
+                        autoPlay
+                        playsInline
+                        preload="metadata"
+                        className="cctv-player-video"
+                      >
+                        Your browser does not support HTML5 video playback.
+                      </video>
+                    ) : (
+                      <div 
+                        className="cctv-play-overlay"
+                        onClick={() => setCctvInlinePlaying(true)}
+                        role="button"
+                        tabIndex={0}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') {
+                            setCctvInlinePlaying(true);
+                          }
+                        }}
+                        aria-label="Play CCTV Installation Video"
+                      >
+                        <img 
+                          src="/images/projects/cctv-security/cctv-video-thumbnail.jpg" 
+                          alt="FLOWNERGY CCTV Installation Project Video Preview" 
+                          style={{
+                            position: 'absolute',
+                            inset: 0,
+                            width: '100%',
+                            height: '100%',
+                            objectFit: 'cover'
+                          }}
+                        />
+                        <div 
+                          style={{
+                            position: 'absolute',
+                            inset: 0,
+                            background: 'linear-gradient(180deg, rgba(15, 23, 42, 0.25) 0%, rgba(15, 23, 42, 0.65) 100%)'
+                          }}
+                        />
+
+                        {/* Top Badges */}
+                        <div 
+                          style={{
+                            position: 'absolute',
+                            top: '1rem',
+                            left: '1rem',
+                            right: '1rem',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                            zIndex: 6
+                          }}
+                        >
+                          <span 
+                            style={{
+                              backgroundColor: 'rgba(50, 71, 99, 0.9)',
+                              backdropFilter: 'blur(4px)',
+                              color: '#FFFFFF',
+                              padding: '0.3rem 0.65rem',
+                              borderRadius: '4px',
+                              fontSize: '0.72rem',
+                              fontWeight: 700,
+                              display: 'inline-flex',
+                              alignItems: 'center',
+                              gap: '0.35rem',
+                              border: '1px solid rgba(255, 255, 255, 0.2)'
+                            }}
+                          >
+                            <Play size={10} fill="#E87A00" color="#E87A00" />
+                            FIELD VIDEO
+                          </span>
+                          <span 
+                            style={{
+                              backgroundColor: 'rgba(15, 23, 42, 0.85)',
+                              backdropFilter: 'blur(4px)',
+                              color: '#FFFFFF',
+                              padding: '0.3rem 0.6rem',
+                              borderRadius: '4px',
+                              fontSize: '0.72rem',
+                              fontWeight: 600
+                            }}
+                          >
+                            01:23
+                          </span>
+                        </div>
+
+                        {/* Centered Play Button */}
+                        <div className="cctv-play-btn" style={{ zIndex: 6 }}>
+                          <Play size={32} color="#FFFFFF" fill="#FFFFFF" style={{ marginLeft: '4px' }} />
+                        </div>
+
+                        {/* Bottom Label */}
+                        <div 
+                          style={{
+                            position: 'absolute',
+                            bottom: '1.25rem',
+                            left: '1rem',
+                            right: '1rem',
+                            textAlign: 'center',
+                            zIndex: 6
+                          }}
+                        >
+                          <span 
+                            style={{
+                              color: '#FFFFFF',
+                              fontSize: '0.85rem',
+                              fontWeight: 600,
+                              textShadow: '0 2px 6px rgba(0,0,0,0.8)'
+                            }}
+                          >
+                            Click to Play Full Video
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Technical Scope Column */}
+                  <div style={{ display: 'flex', flexDirection: 'column' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.5rem' }}>
+                      <span className="badge-tag" style={{ margin: 0 }}>Verified Field Installation</span>
+                      <span style={{ fontSize: '0.85rem', color: '#718296', display: 'inline-flex', alignItems: 'center', gap: '0.3rem' }}>
+                        <MapPin size={13} color="#E87A00" />
+                        Residential Estate, Nigeria
+                      </span>
+                    </div>
+
+                    <h4 style={{ fontSize: '1.5rem', color: '#324763', marginBottom: '0.85rem', lineHeight: '1.3' }}>
+                      Four-Camera HD IP CCTV Surveillance Deployment
+                    </h4>
+
+                    <p style={{ color: '#4A5B70', fontSize: '0.96rem', lineHeight: '1.7', marginBottom: '1.5rem' }}>
+                      Demonstrating authentic on-site engineering by FLOWNERGY TECH. Our technicians eliminate blind spots with calculated camera angles, safeguard all cabling within weather-tight industrial conduit, and connect the system to secure mobile live view.
+                    </p>
+
+                    {/* Technical Features List */}
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: '0.85rem', marginBottom: '2rem' }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                        <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#FFF5EB', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
+                          <CheckCircle2 size={16} color="#E87A00" />
+                        </div>
+                        <div>
+                          <strong style={{ fontSize: '0.92rem', color: '#324763', display: 'block' }}>Complete Perimeter & Entrance Coverage</strong>
+                          <span style={{ fontSize: '0.86rem', color: '#718296' }}>Four high-definition cameras strategically positioned to cover gates, walkways, and perimeter walls.</span>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                        <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#FFF5EB', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
+                          <CheckCircle2 size={16} color="#E87A00" />
+                        </div>
+                        <div>
+                          <strong style={{ fontSize: '0.92rem', color: '#324763', display: 'block' }}>Weatherproof Conduit Trunking</strong>
+                          <span style={{ fontSize: '0.86rem', color: '#718296' }}>Tamper-resistant surface piping preventing moisture ingress and physical wire tampering.</span>
+                        </div>
+                      </div>
+
+                      <div style={{ display: 'flex', alignItems: 'flex-start', gap: '0.75rem' }}>
+                        <div style={{ width: '24px', height: '24px', borderRadius: '50%', backgroundColor: '#FFF5EB', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
+                          <CheckCircle2 size={16} color="#E87A00" />
+                        </div>
+                        <div>
+                          <strong style={{ fontSize: '0.92rem', color: '#324763', display: 'block' }}>Mobile Remote Surveillance Setup</strong>
+                          <span style={{ fontSize: '0.86rem', color: '#718296' }}>Real-time streaming and push alerts configured directly on the client's smartphone.</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Action Links */}
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '1rem', alignItems: 'center' }}>
+                      <button
+                        type="button"
+                        onClick={() => setLightboxIndex(0)}
+                        className="btn btn-outline"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.65rem 1.4rem' }}
+                      >
+                        <Maximize2 size={16} color="#324763" />
+                        <span>Theater / Fullscreen View</span>
+                      </button>
+                      <Link 
+                        to="/contact?service=CCTV%20%26%20Security%20Systems#quote"
+                        className="btn btn-primary"
+                        style={{ display: 'inline-flex', alignItems: 'center', gap: '0.45rem', padding: '0.65rem 1.6rem' }}
+                      >
+                        <span>Request Security Quote</span>
+                        <ArrowRight size={16} />
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
 
@@ -658,7 +1087,11 @@ export default function Projects() {
                   letterSpacing: '0.04em'
                 }}
               >
-                {activeFilter === 'electrical-installation' ? 'Electrical Installation' : 'Solar Energy'}
+                {activeFilter === 'electrical-installation' 
+                  ? 'Electrical Installation' 
+                  : activeFilter === 'cctv-security'
+                    ? 'CCTV & Security Systems'
+                    : 'Solar Energy'}
               </span>
               <span style={{ fontSize: '0.95rem', color: 'rgba(255, 255, 255, 0.9)', fontWeight: 500 }}>
                 {currentMedia?.type === 'video' ? 'Video' : 'Photo'} {lightboxIndex + 1} of {currentGallery.length}
@@ -688,64 +1121,68 @@ export default function Projects() {
           </div>
 
           {/* Previous Image Button */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handlePrevImage();
-            }}
-            style={{
-              position: 'absolute',
-              left: '1.25rem',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.25)',
-              borderRadius: '50%',
-              width: '48px',
-              height: '48px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#FFFFFF',
-              cursor: 'pointer',
-              zIndex: 4010,
-              transition: 'background 200ms ease'
-            }}
-            aria-label="Previous photo"
-          >
-            <ChevronLeft size={28} />
-          </button>
+          {currentGallery.length > 1 && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handlePrevImage();
+              }}
+              style={{
+                position: 'absolute',
+                left: '1.25rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(255, 255, 255, 0.15)',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
+                borderRadius: '50%',
+                width: '48px',
+                height: '48px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#FFFFFF',
+                cursor: 'pointer',
+                zIndex: 4010,
+                transition: 'background 200ms ease'
+              }}
+              aria-label="Previous photo"
+            >
+              <ChevronLeft size={28} />
+            </button>
+          )}
 
           {/* Next Image Button */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleNextImage();
-            }}
-            style={{
-              position: 'absolute',
-              right: '1.25rem',
-              top: '50%',
-              transform: 'translateY(-50%)',
-              background: 'rgba(255, 255, 255, 0.15)',
-              border: '1px solid rgba(255, 255, 255, 0.25)',
-              borderRadius: '50%',
-              width: '48px',
-              height: '48px',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              color: '#FFFFFF',
-              cursor: 'pointer',
-              zIndex: 4010,
-              transition: 'background 200ms ease'
-            }}
-            aria-label="Next photo"
-          >
-            <ChevronRight size={28} />
-          </button>
+          {currentGallery.length > 1 && (
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                handleNextImage();
+              }}
+              style={{
+                position: 'absolute',
+                right: '1.25rem',
+                top: '50%',
+                transform: 'translateY(-50%)',
+                background: 'rgba(255, 255, 255, 0.15)',
+                border: '1px solid rgba(255, 255, 255, 0.25)',
+                borderRadius: '50%',
+                width: '48px',
+                height: '48px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                color: '#FFFFFF',
+                cursor: 'pointer',
+                zIndex: 4010,
+                transition: 'background 200ms ease'
+              }}
+              aria-label="Next photo"
+            >
+              <ChevronRight size={28} />
+            </button>
+          )}
 
           {/* Main Media Container */}
           <div 
@@ -803,7 +1240,11 @@ export default function Projects() {
             }}
             onClick={(e) => e.stopPropagation()}
           >
-            Use <kbd style={{ padding: '0.15rem 0.45rem', background: 'rgba(255,255,255,0.2)', borderRadius: '4px' }}>←</kbd> and <kbd style={{ padding: '0.15rem 0.45rem', background: 'rgba(255,255,255,0.2)', borderRadius: '4px' }}>→</kbd> keys to navigate, <kbd style={{ padding: '0.15rem 0.45rem', background: 'rgba(255,255,255,0.2)', borderRadius: '4px' }}>Esc</kbd> to close
+            {currentGallery.length > 1 ? (
+              <>Use <kbd style={{ padding: '0.15rem 0.45rem', background: 'rgba(255,255,255,0.2)', borderRadius: '4px' }}>←</kbd> and <kbd style={{ padding: '0.15rem 0.45rem', background: 'rgba(255,255,255,0.2)', borderRadius: '4px' }}>→</kbd> keys to navigate, <kbd style={{ padding: '0.15rem 0.45rem', background: 'rgba(255,255,255,0.2)', borderRadius: '4px' }}>Esc</kbd> to close</>
+            ) : (
+              <>Press <kbd style={{ padding: '0.15rem 0.45rem', background: 'rgba(255,255,255,0.2)', borderRadius: '4px' }}>Esc</kbd> to close</>
+            )}
           </div>
         </div>
       )}
