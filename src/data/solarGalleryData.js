@@ -78,12 +78,6 @@ export const SOLAR_GALLERY_IMAGES = [
     "alt": "FLOWNERGY Solar Energy Project Installation 13"
   },
   {
-    "id": "solar-img-14",
-    "src": "/images/projects/solar-energy/IMG_20250214_175817_519.jpg",
-    "filename": "IMG_20250214_175817_519.jpg",
-    "alt": "FLOWNERGY Solar Energy Project Installation 14"
-  },
-  {
     "id": "solar-img-15",
     "src": "/images/projects/solar-energy/IMG_20250215_131424_078.jpg",
     "filename": "IMG_20250215_131424_078.jpg",
@@ -100,12 +94,6 @@ export const SOLAR_GALLERY_IMAGES = [
     "src": "/images/projects/solar-energy/IMG_20250215_140607_059.jpg",
     "filename": "IMG_20250215_140607_059.jpg",
     "alt": "FLOWNERGY Solar Energy Project Installation 17"
-  },
-  {
-    "id": "solar-img-18",
-    "src": "/images/projects/solar-energy/IMG_20250215_161737_780.jpg",
-    "filename": "IMG_20250215_161737_780.jpg",
-    "alt": "FLOWNERGY Solar Energy Project Installation 18"
   },
   {
     "id": "solar-img-19",
@@ -280,24 +268,6 @@ export const SOLAR_GALLERY_IMAGES = [
     "src": "/images/projects/solar-energy/IMG_20260408_135838_880.jpg",
     "filename": "IMG_20260408_135838_880.jpg",
     "alt": "FLOWNERGY Solar Energy Project Installation 47"
-  },
-  {
-    "id": "solar-img-48",
-    "src": "/images/projects/solar-energy/IMG_20260410_095927_065.jpg",
-    "filename": "IMG_20260410_095927_065.jpg",
-    "alt": "FLOWNERGY Solar Energy Project Installation 48"
-  },
-  {
-    "id": "solar-img-49",
-    "src": "/images/projects/solar-energy/IMG_20260410_100034_503.jpg",
-    "filename": "IMG_20260410_100034_503.jpg",
-    "alt": "FLOWNERGY Solar Energy Project Installation 49"
-  },
-  {
-    "id": "solar-img-50",
-    "src": "/images/projects/solar-energy/IMG_20260410_100042_872.jpg",
-    "filename": "IMG_20260410_100042_872.jpg",
-    "alt": "FLOWNERGY Solar Energy Project Installation 50"
   },
   {
     "id": "solar-img-51",

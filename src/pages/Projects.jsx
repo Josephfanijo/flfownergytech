@@ -11,12 +11,14 @@ import {
   ChevronLeft,
   ChevronRight,
   X,
-  Camera
+  Camera,
+  Building
 } from 'lucide-react';
 import { PROJECTS_DATA } from '../data/companyData';
 import { SOLAR_GALLERY_IMAGES } from '../data/solarGalleryData';
 import { ELECTRICAL_GALLERY_MEDIA } from '../data/electricalGalleryData';
 import { CCTV_GALLERY_MEDIA } from '../data/cctvGalleryData';
+import { PROPERTY_GALLERY_IMAGES } from '../data/propertyGalleryData';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 
 export default function Projects() {
@@ -80,10 +82,6 @@ export default function Projects() {
     { id: "property-management", label: "Property Management" }
   ];
 
-  const filteredProjects = activeFilter === "all" 
-    ? PROJECTS_DATA.filter(p => p.category !== "solar-energy") 
-    : PROJECTS_DATA.filter(p => p.category === activeFilter && p.category !== "solar-energy");
-
   const cctvVideoProject = {
     id: "proj-cctv-4cam",
     title: "Four-Camera HD IP CCTV Surveillance Deployment",
@@ -102,16 +100,28 @@ export default function Projects() {
     ]
   };
 
+  // Remove only the second project card currently displayed in CCTV (index 1)
   const cctvProjectsList = [
     cctvVideoProject,
     ...PROJECTS_DATA.filter(p => p.category === 'cctv-security')
+  ].filter((_, idx) => idx !== 1);
+
+  const allProjectsList = [
+    cctvVideoProject,
+    ...PROJECTS_DATA.filter(p => p.category !== "solar-energy" && p.id !== "proj-3")
   ];
+
+  const filteredProjects = activeFilter === "all" 
+    ? allProjectsList
+    : PROJECTS_DATA.filter(p => p.category === activeFilter && p.category !== "solar-energy");
 
   const currentGallery = activeFilter === 'electrical-installation' 
     ? ELECTRICAL_GALLERY_MEDIA 
     : activeFilter === 'cctv-security'
       ? CCTV_GALLERY_MEDIA
-      : SOLAR_GALLERY_IMAGES;
+      : activeFilter === 'property-management'
+        ? PROPERTY_GALLERY_IMAGES
+        : SOLAR_GALLERY_IMAGES;
   const currentMedia = (lightboxIndex !== null && currentGallery[lightboxIndex]) 
     ? currentGallery[lightboxIndex] 
     : null;
@@ -683,6 +693,151 @@ export default function Projects() {
               style={{ scrollMarginTop: '100px', marginTop: '2rem' }}
             >
               {filteredProjects.length > 0 && renderProjectsGrid(filteredProjects)}
+
+              {/* Dedicated Property Management Field Gallery */}
+              <div 
+                className="property-field-gallery"
+                style={{ 
+                  marginTop: filteredProjects.length > 0 ? '3.5rem' : '1.5rem',
+                  paddingTop: filteredProjects.length > 0 ? '2.5rem' : '0',
+                  borderTop: filteredProjects.length > 0 ? '1px solid #E2E8F0' : 'none'
+                }}
+              >
+                <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
+                  <span className="badge-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.75rem' }}>
+                    <Building size={15} color="#E87A00" />
+                    Field Inspection Gallery
+                  </span>
+                  <h3 style={{ fontSize: '1.9rem', color: '#324763', marginBottom: '0.75rem' }}>
+                    Facility Management & Technical Site Supervision
+                  </h3>
+                  <p style={{ color: '#4A5B70', maxWidth: '680px', margin: '0 auto', fontSize: '1rem', lineHeight: '1.7' }}>
+                    Browse authentic field photography documenting our comprehensive facility supervision, 
+                    preventative technical maintenance, structural inspections, and certified engineering audits.
+                  </p>
+                </div>
+
+                <style>{`
+                  .property-gallery-grid {
+                    display: grid;
+                    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                    gap: 1.25rem;
+                  }
+                  .property-thumb-card {
+                    position: relative;
+                    border-radius: 12px;
+                    overflow: hidden;
+                    aspect-ratio: 4 / 3;
+                    cursor: pointer;
+                    background-color: #F5F7F9;
+                    box-shadow: 0 4px 12px rgba(50, 71, 99, 0.08);
+                    border: 1px solid #E2E8F0;
+                    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1), box-shadow 250ms cubic-bezier(0.4, 0, 0.2, 1), border-color 250ms ease;
+                  }
+                  .property-thumb-card:hover {
+                    transform: translateY(-4px);
+                    box-shadow: 0 12px 24px rgba(50, 71, 99, 0.16);
+                    border-color: #E87A00;
+                  }
+                  .property-thumb-img {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: cover;
+                    transition: transform 350ms cubic-bezier(0.4, 0, 0.2, 1);
+                  }
+                  .property-thumb-card:hover .property-thumb-img {
+                    transform: scale(1.05);
+                  }
+                  .property-thumb-overlay {
+                    position: absolute;
+                    inset: 0;
+                    background: linear-gradient(180deg, rgba(50, 71, 99, 0.2) 0%, rgba(50, 71, 99, 0.6) 100%);
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    opacity: 0;
+                    transition: opacity 250ms ease;
+                  }
+                  .property-thumb-card:hover .property-thumb-overlay {
+                    opacity: 1;
+                  }
+                  .property-thumb-icon {
+                    width: 44px;
+                    height: 44px;
+                    border-radius: 50%;
+                    background-color: #FFFFFF;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+                    transform: scale(0.85);
+                    transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1);
+                  }
+                  .property-thumb-card:hover .property-thumb-icon {
+                    transform: scale(1);
+                  }
+                  @media (max-width: 640px) {
+                    .property-gallery-grid {
+                      grid-template-columns: repeat(2, 1fr);
+                      gap: 0.75rem;
+                    }
+                  }
+                `}</style>
+
+                {/* Gallery Grid */}
+                <div className="property-gallery-grid">
+                  {PROPERTY_GALLERY_IMAGES.slice(0, visibleCount).map((image, index) => (
+                    <div 
+                      key={image.id}
+                      onClick={() => setLightboxIndex(index)}
+                      className="property-thumb-card"
+                      role="button"
+                      tabIndex={0}
+                      onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                          setLightboxIndex(index);
+                        }
+                      }}
+                      aria-label={`View ${image.alt}`}
+                    >
+                      <img 
+                        src={image.src} 
+                        alt={image.alt} 
+                        loading="lazy"
+                        className="property-thumb-img"
+                      />
+                      <div className="property-thumb-overlay">
+                        <div className="property-thumb-icon">
+                          <Maximize2 size={20} color="#E87A00" />
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Gallery Pagination / Load More Footer */}
+                <div style={{ textAlign: 'center', marginTop: '2.5rem' }}>
+                  <p style={{ color: '#718296', fontSize: '0.92rem', marginBottom: '1.25rem' }}>
+                    Showing {Math.min(visibleCount, PROPERTY_GALLERY_IMAGES.length)} of {PROPERTY_GALLERY_IMAGES.length} Property Management Photos
+                  </p>
+                  {visibleCount < PROPERTY_GALLERY_IMAGES.length && (
+                    <button
+                      type="button"
+                      onClick={handleLoadMore}
+                      className="btn btn-outline"
+                      style={{
+                        borderColor: '#324763',
+                        color: '#324763',
+                        fontWeight: 600,
+                        padding: '0.75rem 2.2rem',
+                        fontSize: '0.95rem'
+                      }}
+                    >
+                      Load More Property Photos ({PROPERTY_GALLERY_IMAGES.length - visibleCount} remaining)
+                    </button>
+                  )}
+                </div>
+              </div>
             </div>
           )}
 
@@ -1091,7 +1246,9 @@ export default function Projects() {
                   ? 'Electrical Installation' 
                   : activeFilter === 'cctv-security'
                     ? 'CCTV & Security Systems'
-                    : 'Solar Energy'}
+                    : activeFilter === 'property-management'
+                      ? 'Property Management'
+                      : 'Solar Energy'}
               </span>
               <span style={{ fontSize: '0.95rem', color: 'rgba(255, 255, 255, 0.9)', fontWeight: 500 }}>
                 {currentMedia?.type === 'video' ? 'Video' : 'Photo'} {lightboxIndex + 1} of {currentGallery.length}
