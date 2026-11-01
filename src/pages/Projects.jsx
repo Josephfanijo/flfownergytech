@@ -366,6 +366,110 @@ export default function Projects() {
               className="project-category-section" 
               style={{ scrollMarginTop: '100px', marginTop: '2rem' }}
             >
+              {/* ── Service Category Navigation Cards ── */}
+              <div style={{ marginBottom: '3rem' }}>
+                <div style={{ textAlign: 'center', marginBottom: '2rem' }}>
+                  <span style={{
+                    display: 'inline-block',
+                    backgroundColor: '#fff4e8',
+                    color: '#E87A00',
+                    fontWeight: 700,
+                    fontSize: '0.78rem',
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    padding: '0.35rem 1rem',
+                    borderRadius: '999px',
+                    marginBottom: '0.75rem'
+                  }}>Our Services</span>
+                  <h3 style={{ color: '#324763', fontSize: '1.6rem', fontWeight: 700, margin: '0 0 0.5rem' }}>
+                    Browse by Service Category
+                  </h3>
+                  <p style={{ color: '#5F7894', fontSize: '0.97rem', maxWidth: '520px', margin: '0 auto' }}>
+                    Explore our specialised project portfolios by service area.
+                  </p>
+                </div>
+
+                <div style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                  gap: '1.25rem'
+                }}>
+                  {[
+                    {
+                      label: 'Electrical Installation',
+                      path: '/services/electrical-installation',
+                      img: '/images/projects/electrical-installation/IMG_20250215_143433_807.jpg',
+                      icon: <Zap size={18} />
+                    },
+                    {
+                      label: 'Solar Energy',
+                      path: '/services/solar-energy',
+                      img: '/images/projects/solar-energy/IMG_20260321_143703_953.jpg',
+                      icon: <Sun size={18} />
+                    },
+                    {
+                      label: 'CCTV & Security Systems',
+                      path: '/services/cctv-security',
+                      img: '/images/projects/cctv-security/cctv-video-thumbnail.jpg',
+                      icon: <Camera size={18} />
+                    },
+                    {
+                      label: 'Property Management',
+                      path: '/services/property-management',
+                      img: '/images/projects/property-management/IMG_20250214_175817_519.jpg',
+                      icon: <Building size={18} />
+                    }
+                  ].map((svc) => (
+                    <Link
+                      key={svc.path}
+                      to={svc.path}
+                      style={{ textDecoration: 'none' }}
+                    >
+                      <div
+                        className="service-nav-card"
+                        style={{
+                          backgroundColor: '#FFFFFF',
+                          border: '2px solid #E2E8F0',
+                          borderRadius: '14px',
+                          overflow: 'hidden',
+                          transition: 'border-color 0.22s ease, box-shadow 0.22s ease, transform 0.22s ease',
+                          cursor: 'pointer'
+                        }}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.borderColor = '#E87A00';
+                          e.currentTarget.style.boxShadow = '0 8px 28px rgba(232,122,0,0.18)';
+                          e.currentTarget.style.transform = 'translateY(-4px)';
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.borderColor = '#E2E8F0';
+                          e.currentTarget.style.boxShadow = 'none';
+                          e.currentTarget.style.transform = 'translateY(0)';
+                        }}
+                      >
+                        <div style={{ aspectRatio: '16/9', overflow: 'hidden' }}>
+                          <img
+                            src={svc.img}
+                            alt={svc.label}
+                            style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block', transition: 'transform 0.3s ease' }}
+                            onMouseEnter={e => { e.currentTarget.style.transform = 'scale(1.05)'; }}
+                            onMouseLeave={e => { e.currentTarget.style.transform = 'scale(1)'; }}
+                          />
+                        </div>
+                        <div style={{ padding: '1rem 1.1rem', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.55rem' }}>
+                            <span style={{ color: '#E87A00', display: 'flex', flexShrink: 0 }}>{svc.icon}</span>
+                            <span style={{ color: '#324763', fontWeight: 700, fontSize: '0.92rem', lineHeight: 1.3 }}>{svc.label}</span>
+                          </div>
+                          <ArrowRight size={16} style={{ color: '#E87A00', flexShrink: 0 }} />
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+
+                <div style={{ borderTop: '1px solid #E2E8F0', marginTop: '2.5rem', paddingTop: '0' }} />
+              </div>
+
               {filteredProjects.length > 0 && renderProjectsGrid(filteredProjects)}
             </div>
           )}

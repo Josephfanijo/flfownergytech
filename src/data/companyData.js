@@ -163,7 +163,7 @@ export const PROJECTS_DATA = [
     category: "solar-energy",
     location: "Corporate Facility, Nigeria",
     description: "High-capacity hybrid solar installation equipped with Tier-1 solar panels, smart pure sine wave inverter, and high-cycle lithium battery bank for uninterrupted business continuity.",
-    image: "/images/solar.jpg",
+    image: "/images/projects/solar-energy/IMG_20260321_143703_953.jpg",
     specs: ["15kVA Pure Sine Wave Inverter", "Lithium LiFePO4 Storage", "Monocrystalline Solar PV Array", "Automated Generator Switchover"]
   },
   {
@@ -173,7 +173,7 @@ export const PROJECTS_DATA = [
     category: "cctv-security",
     location: "Industrial Facility, Nigeria",
     description: "Installation of high-definition outdoor bullet and PTZ cameras with motorized zoom, perimeter motion detection, night vision, and encrypted remote monitoring.",
-    image: "/images/cctv.jpg",
+    image: "/images/projects/cctv-security/cctv-video-thumbnail.jpg",
     specs: ["4K & 1080p IP Cameras", "PoE Infrastructure", "Remote Mobile Monitoring", "Surveillance-grade NVR Storage"]
   },
   {
@@ -183,7 +183,7 @@ export const PROJECTS_DATA = [
     category: "property-management",
     location: "Urban Estate, Nigeria",
     description: "Comprehensive facility supervision encompassing routine electrical maintenance, water distribution oversight, tenant support coordination, and regular site condition reporting.",
-    image: "/images/property.jpg",
+    image: "/images/projects/property-management/IMG_20250214_175817_519.jpg",
     specs: ["Facility supervision", "Preventive technical maintenance", "Tenant liaison", "Quarterly inspection audits"]
   },
   {
@@ -193,7 +193,7 @@ export const PROJECTS_DATA = [
     category: "solar-energy",
     location: "Residential Estate, Nigeria",
     description: "Rooftop solar installation powering essential appliances including lighting, refrigeration, home entertainment, and internet equipment with zero downtime.",
-    image: "/images/solar.jpg",
+    image: "/images/projects/solar-energy/IMG_20260321_143703_953.jpg",
     specs: ["5kVA Hybrid Inverter", "48V 100Ah Lithium Battery", "Rooftop Solar Array", "Zero-switchover time"]
   }
 ];

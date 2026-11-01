@@ -57,8 +57,8 @@ export default function Home() {
             <div className="hero-image-wrapper">
               <div className="hero-image-card">
                 <img 
-                  src="/images/flownergy-engineer.jpg" 
-                  alt="FLOWNERGY Certified Field Engineering Team" 
+                  src="/images/flownergy-team.jpg" 
+                  alt="FLOWNERGY Engineering Team on Site" 
                   className="hero-engineer-img"
                   loading="eager"
                 />
@@ -390,39 +390,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* =========================================================================
-          SECTION 8: CLIENT COMMITMENT & TESTIMONIALS (Integrity-Preserving)
-          ========================================================================= */}
-      <section className="section section-light" id="client-commitment">
-        <div className="container">
-          <div className="section-header">
-            <span className="badge-tag">Service Integrity</span>
-            <h2>What Our Clients Say</h2>
-            <p>
-              Our reputation is built on transparent relationships, meticulous craftsmanship, 
-              and verified results.
-            </p>
-          </div>
-
-          <div style={{ maxWidth: '820px', margin: '0 auto', backgroundColor: '#FFFFFF', padding: '3rem', borderRadius: '16px', border: '1px solid #E2E8F0', textAlign: 'center', boxShadow: '0 4px 16px rgba(50,71,99,0.06)' }}>
-            <div style={{ display: 'inline-flex', padding: '0.8rem', backgroundColor: '#fff4e8', borderRadius: '50%', color: '#E87A00', marginBottom: '1.25rem' }}>
-              <ShieldCheck size={36} />
-            </div>
-            <h3 style={{ color: '#324763', marginBottom: '1rem', fontSize: '1.4rem' }}>
-              Commitment to Authentic Client Feedback
-            </h3>
-            <p style={{ fontSize: '1.05rem', color: '#4A5B70', lineHeight: '1.7', marginBottom: '1.75rem' }}>
-              FLOWNERGY TECH operates strictly on truth and accountability. 
-              We do not publish fabricated quotes or invented client reviews. 
-              Client references and site evaluation reports are shared during technical proposals 
-              upon client consent.
-            </p>
-            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '0.6rem', color: '#5F7894', fontWeight: 600, fontSize: '0.92rem' }}>
-              <span>Verified Workmanship • Certified Safety • Transparent Quotations</span>
-            </div>
-          </div>
-        </div>
-      </section>
 
       {/* =========================================================================
           SECTION 9: REQUEST A QUOTE (Embedded interactive section)
