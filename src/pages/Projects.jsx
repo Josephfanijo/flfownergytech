@@ -101,7 +101,7 @@ export default function Projects() {
   };
 
   // Remove only the second project card currently displayed in CCTV (index 1)
-  const cctvProjectsList = [
+  const _cctvProjectsList = [
     cctvVideoProject,
     ...PROJECTS_DATA.filter(p => p.category === 'cctv-security')
   ].filter((_, idx) => idx !== 1);
@@ -466,11 +466,7 @@ export default function Projects() {
                     </Link>
                   ))}
                 </div>
-
-                <div style={{ borderTop: '1px solid #E2E8F0', marginTop: '2.5rem', paddingTop: '0' }} />
               </div>
-
-              {filteredProjects.length > 0 && renderProjectsGrid(filteredProjects)}
             </div>
           )}
 
@@ -481,16 +477,9 @@ export default function Projects() {
               className="project-category-section" 
               style={{ scrollMarginTop: '100px', marginTop: '2rem' }}
             >
-              {cctvProjectsList.length > 0 && renderProjectsGrid(cctvProjectsList)}
-
               {/* Dedicated CCTV Field Video Showcase */}
               <div 
                 className="cctv-field-showcase"
-                style={{ 
-                  marginTop: '3.5rem',
-                  paddingTop: '2.5rem',
-                  borderTop: '1px solid #E2E8F0'
-                }}
               >
                 <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
                   <span className="badge-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.75rem' }}>
@@ -796,16 +785,9 @@ export default function Projects() {
               className="project-category-section" 
               style={{ scrollMarginTop: '100px', marginTop: '2rem' }}
             >
-              {filteredProjects.length > 0 && renderProjectsGrid(filteredProjects)}
-
               {/* Dedicated Property Management Field Gallery */}
               <div 
                 className="property-field-gallery"
-                style={{ 
-                  marginTop: filteredProjects.length > 0 ? '3.5rem' : '1.5rem',
-                  paddingTop: filteredProjects.length > 0 ? '2.5rem' : '0',
-                  borderTop: filteredProjects.length > 0 ? '1px solid #E2E8F0' : 'none'
-                }}
               >
                 <div style={{ textAlign: 'center', marginBottom: '2.5rem' }}>
                   <span className="badge-tag" style={{ display: 'inline-flex', alignItems: 'center', gap: '0.4rem', marginBottom: '0.75rem' }}>
