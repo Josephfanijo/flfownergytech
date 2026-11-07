@@ -13,6 +13,7 @@ import {
 } from 'lucide-react';
 import { SERVICES } from '../data/companyData';
 import { generateTicket, saveEnquiry, copyToClipboard, openWhatsApp } from '../utils/helpers';
+import { submitToWeb3Forms, isValidEmail, getFormattedSubmissionTime } from '../services/web3forms';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 import FAQAccordion from '../components/FAQAccordion';
 
@@ -28,7 +29,8 @@ export default function PropertyManagement() {
     propertyType: "Residential (Apartment Block / Estate)",
     units: "1 to 5 Units",
     servicesRequired: "Full Facility Supervision & Technical Maintenance",
-    details: ""
+    details: "",
+    botcheck: ""
   });
 
   const [formStatus, setFormStatus] = useState({ type: null, message: "", ticket: "" });
@@ -40,7 +42,7 @@ export default function PropertyManagement() {
     setPmForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handlePmSubmit = (e) => {
+  const handlePmSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setFormStatus({ type: null, message: "", ticket: "" });
@@ -48,23 +50,56 @@ export default function PropertyManagement() {
     if (!pmForm.name.trim() || !pmForm.phone.trim() || !pmForm.location.trim()) {
       setFormStatus({
         type: "error",
-        message: "Please fill in all required contact details and property location."
+        message: "Please fill in all required contact details (Name, Phone, and Property Location)."
+      });
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (pmForm.email && !isValidEmail(pmForm.email)) {
+      setFormStatus({
+        type: "error",
+        message: "Please provide a valid email address (e.g. client@example.com)."
       });
       setIsSubmitting(false);
       return;
     }
 
     const ticketId = generateTicket('PM');
-    saveEnquiry('flownergy_pm_inquiries', { id: ticketId, ...pmForm });
+    const submissionTime = getFormattedSubmissionTime();
 
-    setTimeout(() => {
-      setIsSubmitting(false);
+    const result = await submitToWeb3Forms({
+      subject: `[FLOWNERGY PM Request] ${pmForm.propertyType} - ${pmForm.name} (Ref: ${ticketId})`,
+      ticket_reference: ticketId,
+      submission_time: submissionTime,
+      enquiry_type: "Property Management & Facility Consultation",
+      owner_representative_name: pmForm.name,
+      phone: pmForm.phone,
+      email: pmForm.email || "Not Provided",
+      replyto: pmForm.email ? pmForm.email.trim() : undefined,
+      property_location: pmForm.location,
+      property_category: pmForm.propertyType,
+      number_of_units: pmForm.units,
+      required_services_scope: pmForm.servicesRequired,
+      additional_details: pmForm.details || "None specified",
+      botcheck: pmForm.botcheck
+    });
+
+    setIsSubmitting(false);
+
+    if (result.success) {
+      saveEnquiry('flownergy_pm_inquiries', { id: ticketId, ...pmForm });
       setFormStatus({
         type: "success",
         ticket: ticketId,
-        message: `Your property management enquiry has been logged with Reference #${ticketId}. Our facility management director will contact you to schedule an initial property walk-through and consultation.`
+        message: `Your property management enquiry has been successfully transmitted with Reference #${ticketId}. Our facility management director will contact you to schedule an initial property walk-through and consultation.`
       });
-    }, 700);
+    } else {
+      setFormStatus({
+        type: "error",
+        message: result.message || "Failed to submit enquiry. Please verify your connection or reach out on WhatsApp."
+      });
+    }
   };
 
   const copyPmSummary = () => {
@@ -264,6 +299,17 @@ export default function PropertyManagement() {
                 </div>
               ) : (
                 <form onSubmit={handlePmSubmit} noValidate>
+                  {/* Web3Forms Honeypot Spam Protection */}
+                  <input 
+                    type="checkbox" 
+                    name="botcheck" 
+                    style={{ display: 'none' }} 
+                    tabIndex={-1} 
+                    autoComplete="off"
+                    checked={Boolean(pmForm.botcheck)}
+                    onChange={(e) => setPmForm(prev => ({ ...prev, botcheck: e.target.checked ? "bot" : "" }))}
+                  />
+
                   <div className="form-grid-2">
                     <div className="form-group">
                       <label className="form-label" htmlFor="pm-name">

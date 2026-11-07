@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 import { SERVICES } from '../data/companyData';
 import { generateTicket, saveEnquiry, copyToClipboard, openWhatsApp } from '../utils/helpers';
+import { submitToWeb3Forms, isValidEmail, getFormattedSubmissionTime } from '../services/web3forms';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 import FAQAccordion from '../components/FAQAccordion';
 
@@ -27,7 +28,8 @@ export default function SolarEnergy() {
     appliances: "",
     existingSystem: "No existing system (New installation)",
     backupHours: "12 hours (Night backup)",
-    additionalDetails: ""
+    additionalDetails: "",
+    botcheck: ""
   });
 
   const [formStatus, setFormStatus] = useState({ type: null, message: "", ticket: "" });
@@ -39,7 +41,7 @@ export default function SolarEnergy() {
     setSolarForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSolarSubmit = (e) => {
+  const handleSolarSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setFormStatus({ type: null, message: "", ticket: "" });
@@ -53,17 +55,51 @@ export default function SolarEnergy() {
       return;
     }
 
-    const ticketId = generateTicket('SLR');
-    saveEnquiry('flownergy_solar_inquiries', { id: ticketId, ...solarForm });
-
-    setTimeout(() => {
+    if (solarForm.email && !isValidEmail(solarForm.email)) {
+      setFormStatus({
+        type: "error",
+        message: "Please provide a valid email address (e.g. client@example.com)."
+      });
       setIsSubmitting(false);
+      return;
+    }
+
+    const ticketId = generateTicket('SLR');
+    const submissionTime = getFormattedSubmissionTime();
+
+    const result = await submitToWeb3Forms({
+      subject: `[FLOWNERGY Solar Request] ${solarForm.propertyType} - ${solarForm.name} (Ref: ${ticketId})`,
+      ticket_reference: ticketId,
+      submission_time: submissionTime,
+      enquiry_type: "Solar Energy & Sizing Assessment",
+      customer_name: solarForm.name,
+      phone: solarForm.phone,
+      email: solarForm.email || "Not Provided",
+      replyto: solarForm.email ? solarForm.email.trim() : undefined,
+      property_type: solarForm.propertyType,
+      installation_location: solarForm.location,
+      existing_system: solarForm.existingSystem,
+      appliances_to_power: solarForm.appliances,
+      desired_backup_duration: solarForm.backupHours,
+      additional_project_notes: solarForm.additionalDetails || "None specified",
+      botcheck: solarForm.botcheck
+    });
+
+    setIsSubmitting(false);
+
+    if (result.success) {
+      saveEnquiry('flownergy_solar_inquiries', { id: ticketId, ...solarForm });
       setFormStatus({
         type: "success",
         ticket: ticketId,
-        message: `Your solar power calculation request has been received with Reference #${ticketId}. Our renewable energy engineers will calculate the required solar array and lithium storage capacity and contact you shortly.`
+        message: `Your solar power calculation request has been successfully transmitted with Reference #${ticketId}. Our renewable energy engineers will calculate the required solar array and lithium storage capacity and contact you shortly.`
       });
-    }, 700);
+    } else {
+      setFormStatus({
+        type: "error",
+        message: result.message || "Failed to submit enquiry. Please check your network connection or reach out via WhatsApp."
+      });
+    }
   };
 
   const copySolarSummary = () => {
@@ -294,6 +330,17 @@ export default function SolarEnergy() {
                 </div>
               ) : (
                 <form onSubmit={handleSolarSubmit} noValidate>
+                  {/* Web3Forms Honeypot Spam Protection */}
+                  <input 
+                    type="checkbox" 
+                    name="botcheck" 
+                    style={{ display: 'none' }} 
+                    tabIndex={-1} 
+                    autoComplete="off"
+                    checked={Boolean(solarForm.botcheck)}
+                    onChange={(e) => setSolarForm(prev => ({ ...prev, botcheck: e.target.checked ? "bot" : "" }))}
+                  />
+
                   <div className="form-grid-2">
                     <div className="form-group">
                       <label className="form-label" htmlFor="solar-name">

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Send, CheckCircle2, AlertCircle, Copy, Check, MessageSquare } from 'lucide-react';
 import { SERVICES } from '../data/companyData';
 import { generateTicket, saveEnquiry, copyToClipboard, openWhatsApp } from '../utils/helpers';
+import { submitToWeb3Forms, isValidEmail, getFormattedSubmissionTime } from '../services/web3forms';
 
 export default function QuotationForm({ preselectedService = "", title = "Request a Quotation", subtitle = "Complete the form below to receive a detailed technical assessment and quote." }) {
   const [formData, setFormData] = useState({
@@ -12,7 +13,8 @@ export default function QuotationForm({ preselectedService = "", title = "Reques
     location: "",
     projectType: "Residential",
     description: "",
-    preferredContact: "Phone Call"
+    preferredContact: "Phone Call",
+    botcheck: ""
   });
 
   const [prevServiceProp, setPrevServiceProp] = useState(preselectedService);
@@ -30,12 +32,12 @@ export default function QuotationForm({ preselectedService = "", title = "Reques
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
     setStatus({ type: null, message: "", ticket: "" });
 
-    // Client-side validation
+    // Client-side validation for required fields
     if (!formData.fullName.trim() || !formData.phone.trim() || !formData.location.trim() || !formData.description.trim()) {
       setStatus({
         type: "error",
@@ -45,19 +47,55 @@ export default function QuotationForm({ preselectedService = "", title = "Reques
       return;
     }
 
-    // Generate unique inquiry ticket and persist via shared helper
-    const ticketId = generateTicket('FLW');
-    saveEnquiry('flownergy_inquiries', { id: ticketId, ...formData });
-
-    // Simulated network dispatch (configured for production Formspree / EmailJS or custom API endpoint)
-    setTimeout(() => {
+    // Email format validation (if provided)
+    if (formData.email && !isValidEmail(formData.email)) {
+      setStatus({
+        type: "error",
+        message: "Please provide a valid email address (e.g. client@example.com)."
+      });
       setIsSubmitting(false);
+      return;
+    }
+
+    // Generate unique inquiry ticket
+    const ticketId = generateTicket('FLW');
+    const submissionTime = getFormattedSubmissionTime();
+
+    // Transmit to Web3Forms API
+    const result = await submitToWeb3Forms({
+      subject: `[FLOWNERGY Quote Request] ${formData.service} - ${formData.fullName} (Ref: ${ticketId})`,
+      ticket_reference: ticketId,
+      submission_time: submissionTime,
+      enquiry_type: "Technical Quotation Request",
+      name: formData.fullName,
+      phone: formData.phone,
+      email: formData.email || "Not Provided",
+      replyto: formData.email ? formData.email.trim() : undefined,
+      service_required: formData.service,
+      property_type: formData.projectType,
+      project_location: formData.location,
+      preferred_contact_method: formData.preferredContact,
+      project_scope_description: formData.description,
+      botcheck: formData.botcheck
+    });
+
+    setIsSubmitting(false);
+
+    if (result.success) {
+      // Persist to local backup storage only after confirmed transmission
+      saveEnquiry('flownergy_inquiries', { id: ticketId, ...formData });
+
       setStatus({
         type: "success",
         ticket: ticketId,
-        message: `Thank you, ${formData.fullName}. Your quotation request has been securely logged with Reference #${ticketId}. Our engineering team will review your specifications and reach out via ${formData.preferredContact}.`
+        message: `Thank you, ${formData.fullName}. Your quotation request has been successfully transmitted to our engineering desk with Reference #${ticketId}. Our technical team will review your specifications and contact you via ${formData.preferredContact}.`
       });
-    }, 700);
+    } else {
+      setStatus({
+        type: "error",
+        message: result.message || "Failed to transmit enquiry. Please check your network connection or contact us directly on WhatsApp."
+      });
+    }
   };
 
   const copyDetails = () => {
@@ -142,7 +180,8 @@ export default function QuotationForm({ preselectedService = "", title = "Reques
                   location: "",
                   projectType: "Residential",
                   description: "",
-                  preferredContact: "Phone Call"
+                  preferredContact: "Phone Call",
+                  botcheck: ""
                 });
               }}
               className="btn btn-sm btn-outline"
@@ -153,6 +192,17 @@ export default function QuotationForm({ preselectedService = "", title = "Reques
         </div>
       ) : (
         <form onSubmit={handleSubmit} noValidate>
+          {/* Web3Forms Honeypot Spam Protection */}
+          <input 
+            type="checkbox" 
+            name="botcheck" 
+            style={{ display: 'none' }} 
+            tabIndex={-1} 
+            autoComplete="off"
+            checked={Boolean(formData.botcheck)}
+            onChange={(e) => setFormData(prev => ({ ...prev, botcheck: e.target.checked ? "bot" : "" }))}
+          />
+
           {/* Row 1: Full Name & Phone */}
           <div className="form-grid-2">
             <div className="form-group">

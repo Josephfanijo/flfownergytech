@@ -93,13 +93,6 @@ export const ELECTRICAL_GALLERY_MEDIA = [
     alt: "FLOWNERGY Electrical Installation Project 11"
   },
   {
-    id: "elec-media-14",
-    type: "image",
-    src: "/images/projects/electrical-installation/IMG-20250210-WA0015.jpg",
-    filename: "IMG-20250210-WA0015.jpg",
-    alt: "FLOWNERGY Electrical Installation Project 12"
-  },
-  {
     id: "elec-media-15",
     type: "image",
     src: "/images/projects/electrical-installation/IMG-20260212-WA0001.jpg",
