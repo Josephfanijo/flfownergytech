@@ -86,3 +86,4 @@ export async function submitToWeb3Forms(payload) {
     };
   }
 }
+
