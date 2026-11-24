@@ -17,6 +17,7 @@ import { SERVICES, PROJECTS_DATA, SECTORS, WORK_PROCESS } from '../data/companyD
 import { getServiceIcon, getSectorIcon } from '../utils/icons';
 import { openWhatsApp } from '../utils/helpers';
 import QuotationForm from '../components/QuotationForm';
+import HeroSlideshow from '../components/HeroSlideshow';
 
 export default function Home() {
   return (
@@ -56,12 +57,7 @@ export default function Home() {
 
             <div className="hero-image-wrapper">
               <div className="hero-image-card">
-                <img 
-                  src="/images/flownergy-team.jpg" 
-                  alt="FLOWNERGY Engineering Team on Site" 
-                  className="hero-engineer-img"
-                  loading="eager"
-                />
+                <HeroSlideshow />
               </div>
             </div>
           </div>
