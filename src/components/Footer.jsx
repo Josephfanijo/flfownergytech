@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Mail, MapPin, Clock, ShieldCheck, MessageSquare } from 'lucide-react';
+import { Mail, MapPin, Phone, ShieldCheck, MessageSquare } from 'lucide-react';
 import { COMPANY_INFO, SERVICES } from '../data/companyData';
 
 const CURRENT_YEAR = new Date().getFullYear();
@@ -84,10 +84,10 @@ export default function Footer() {
             </div>
 
             <div className="footer-contact-item">
-              <Clock size={18} className="footer-contact-icon" />
+              <Phone size={18} className="footer-contact-icon" />
               <div>
-                <span style={{ display: 'block', fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.5)' }}>Working Hours</span>
-                <span>{COMPANY_INFO.operatingHours}</span>
+                <span style={{ display: 'block', fontSize: '0.8rem', color: 'rgba(255, 255, 255, 0.5)' }}>Phone Number</span>
+                <a href="tel:08164223272" style={{ color: '#FFFFFF' }}>08164223272</a>
               </div>
             </div>
 

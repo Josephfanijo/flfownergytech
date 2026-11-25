@@ -3,7 +3,7 @@ import { useLocation, useSearchParams } from 'react-router-dom';
 import { 
   Mail, 
   Clock, 
-  MessageSquare, 
+  Phone, 
   CheckCircle2, 
   Globe
 } from 'lucide-react';
@@ -64,21 +64,21 @@ export default function Contact() {
                 </div>
 
                 <div style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', padding: '1.5rem', backgroundColor: '#F5F7F9', borderRadius: '12px', border: '1px solid #E2E8F0' }}>
-                  <div style={{ width: '44px', height: '44px', borderRadius: '8px', backgroundColor: '#25D366', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
-                    <MessageSquare size={22} />
+                  <div style={{ width: '44px', height: '44px', borderRadius: '8px', backgroundColor: '#324763', color: '#FFFFFF', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+                    <Phone size={22} />
                   </div>
                   <div>
-                    <h4 style={{ color: '#324763', marginBottom: '0.2rem', fontSize: '1.05rem' }}>WhatsApp Business Dispatch</h4>
+                    <h4 style={{ color: '#324763', marginBottom: '0.2rem', fontSize: '1.05rem' }}>Phone Enquiries</h4>
                     <p style={{ margin: 0, fontSize: '0.94rem' }}>
                       <a 
                         href="tel:08164223272" 
-                        style={{ color: '#E87A00', fontWeight: 600, padding: 0, textAlign: 'left', textDecoration: 'none' }}
+                        style={{ color: '#E87A00', fontWeight: 600 }}
                         aria-label="Call Flownergy on 08164223272"
                       >
-                        Call Us
+                        08164223272
                       </a>
                     </p>
-                    <span style={{ fontSize: '0.82rem', color: '#718296' }}>Instant consultation & photo/plan sharing</span>
+                    <span style={{ fontSize: '0.82rem', color: '#718296' }}>Direct phone consultation with our engineering desk</span>
                   </div>
                 </div>
 
