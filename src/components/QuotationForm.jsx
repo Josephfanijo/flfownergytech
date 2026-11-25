@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Send, CheckCircle2, AlertCircle, Copy, Check, MessageSquare } from 'lucide-react';
 import { SERVICES } from '../data/companyData';
-import { generateTicket, saveEnquiry, copyToClipboard, openWhatsApp } from '../utils/helpers';
+import { generateTicket, saveEnquiry, copyToClipboard } from '../utils/helpers';
 import { submitToWeb3Forms, isValidEmail, getFormattedSubmissionTime } from '../services/web3forms';
 
 export default function QuotationForm({ preselectedService = "", title = "Request a Quotation", subtitle = "Complete the form below to receive a detailed technical assessment and quote." }) {
@@ -112,19 +112,6 @@ export default function QuotationForm({ preselectedService = "", title = "Reques
     copyToClipboard(text, setCopied);
   };
 
-  const sendToWhatsApp = () => {
-    const text = `*FLOWNERGY QUOTATION ENQUIRY (Ref: ${status.ticket || 'NEW'})*\n\n` +
-      `*Name:* ${formData.fullName}\n` +
-      `*Phone:* ${formData.phone}\n` +
-      `*Service Required:* ${formData.service}\n` +
-      `*Property Type:* ${formData.projectType}\n` +
-      `*Location:* ${formData.location}\n` +
-      `*Preferred Contact:* ${formData.preferredContact}\n\n` +
-      `*Project Overview:*\n${formData.description}`;
-
-    openWhatsApp(text);
-  };
-
   return (
     <div className="form-card" id="quote-form-container">
       <div style={{ marginBottom: '1.75rem' }}>
@@ -152,14 +139,14 @@ export default function QuotationForm({ preselectedService = "", title = "Reques
           </div>
 
           <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-            <button 
-              type="button" 
-              onClick={sendToWhatsApp} 
+            <a 
+              href="tel:08164223272" 
               className="btn btn-sm btn-primary"
+              aria-label="Call Flownergy on 08164223272"
             >
               <MessageSquare size={16} />
-              Forward to WhatsApp Dispatch
-            </button>
+              Call Us
+            </a>
             <button 
               type="button" 
               onClick={copyDetails} 

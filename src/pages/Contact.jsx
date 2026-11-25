@@ -8,7 +8,7 @@ import {
   Globe
 } from 'lucide-react';
 import { COMPANY_INFO } from '../data/companyData';
-import { openWhatsApp, scrollToElement } from '../utils/helpers';
+import { scrollToElement } from '../utils/helpers';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 import QuotationForm from '../components/QuotationForm';
 
@@ -24,10 +24,6 @@ export default function Contact() {
       window.scrollTo(0, 0);
     }
   }, [location]);
-
-  const handleWhatsAppDirect = () => {
-    openWhatsApp("Hello FLOWNERGY TECH, I would like to enquire about your services and discuss a project quotation.");
-  };
 
   return (
     <div>
@@ -74,13 +70,13 @@ export default function Contact() {
                   <div>
                     <h4 style={{ color: '#324763', marginBottom: '0.2rem', fontSize: '1.05rem' }}>WhatsApp Business Dispatch</h4>
                     <p style={{ margin: 0, fontSize: '0.94rem' }}>
-                      <button 
-                        type="button" 
-                        onClick={handleWhatsAppDirect}
-                        style={{ color: '#E87A00', fontWeight: 600, padding: 0, textAlign: 'left' }}
+                      <a 
+                        href="tel:08164223272" 
+                        style={{ color: '#E87A00', fontWeight: 600, padding: 0, textAlign: 'left', textDecoration: 'none' }}
+                        aria-label="Call Flownergy on 08164223272"
                       >
-                        Start Direct WhatsApp Chat
-                      </button>
+                        Call Us
+                      </a>
                     </p>
                     <span style={{ fontSize: '0.82rem', color: '#718296' }}>Instant consultation & photo/plan sharing</span>
                   </div>

@@ -10,7 +10,7 @@ import {
   Copy
 } from 'lucide-react';
 import { SERVICES } from '../data/companyData';
-import { generateTicket, saveEnquiry, copyToClipboard, openWhatsApp } from '../utils/helpers';
+import { generateTicket, saveEnquiry, copyToClipboard } from '../utils/helpers';
 import { submitToWeb3Forms, isValidEmail, getFormattedSubmissionTime } from '../services/web3forms';
 import BreadcrumbBanner from '../components/BreadcrumbBanner';
 import FAQAccordion from '../components/FAQAccordion';
@@ -114,20 +114,6 @@ export default function SolarEnergy() {
       `Notes: ${solarForm.additionalDetails || 'N/A'}`;
 
     copyToClipboard(text, setCopied);
-  };
-
-  const sendToWhatsApp = () => {
-    const text = `*FLOWNERGY SOLAR SIZING REQUEST (Ref: ${formStatus.ticket || 'NEW'})*\n\n` +
-      `*Name:* ${solarForm.name}\n` +
-      `*Phone:* ${solarForm.phone}\n` +
-      `*Location:* ${solarForm.location}\n` +
-      `*Property Type:* ${solarForm.propertyType}\n` +
-      `*Major Appliances:* ${solarForm.appliances}\n` +
-      `*Desired Backup:* ${solarForm.backupHours}\n` +
-      `*Existing Setup:* ${solarForm.existingSystem}\n\n` +
-      `*Additional Details:*\n${solarForm.additionalDetails || 'None'}`;
-
-    openWhatsApp(text);
   };
 
   return (
@@ -311,10 +297,10 @@ export default function SolarEnergy() {
                   </div>
 
                   <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-                    <button type="button" onClick={sendToWhatsApp} className="btn btn-sm btn-primary">
+                    <a href="tel:08164223272" className="btn btn-sm btn-primary" aria-label="Call Flownergy on 08164223272">
                       <MessageSquare size={16} />
-                      Forward to Solar Team on WhatsApp
-                    </button>
+                      Call Us
+                    </a>
                     <button type="button" onClick={copySolarSummary} className="btn btn-sm btn-navy">
                       {copied ? <Check size={16} /> : <Copy size={16} />}
                       {copied ? "Copied" : "Copy Solar Summary"}

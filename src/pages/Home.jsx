@@ -15,7 +15,6 @@ import {
 } from 'lucide-react';
 import { SERVICES, PROJECTS_DATA, SECTORS, WORK_PROCESS } from '../data/companyData';
 import { getServiceIcon, getSectorIcon } from '../utils/icons';
-import { openWhatsApp } from '../utils/helpers';
 import QuotationForm from '../components/QuotationForm';
 import HeroSlideshow from '../components/HeroSlideshow';
 
@@ -419,14 +418,14 @@ export default function Home() {
               </div>
 
               <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                <button 
-                  type="button"
-                  onClick={() => openWhatsApp("Hello FLOWNERGY TECH, I would like to request a quotation for my project.")}
+                <a 
+                  href="tel:08164223272"
                   className="btn btn-primary"
+                  aria-label="Call Flownergy on 08164223272"
                 >
                   <PhoneCall size={16} />
-                  Chat on WhatsApp
-                </button>
+                  Call Us
+                </a>
                 <Link to="/contact" className="btn btn-outline-white">
                   Visit Contact Page
                 </Link>

@@ -2,7 +2,6 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { Mail, MapPin, Clock, ShieldCheck, MessageSquare } from 'lucide-react';
 import { COMPANY_INFO, SERVICES } from '../data/companyData';
-import { openWhatsApp } from '../utils/helpers';
 
 const CURRENT_YEAR = new Date().getFullYear();
 
@@ -24,16 +23,15 @@ export default function Footer() {
               commercial, and industrial clients across Nigeria.
             </p>
             <div style={{ marginTop: '1.5rem', display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              <button 
-                type="button" 
-                onClick={() => openWhatsApp()} 
+              <a 
+                href="tel:08164223272" 
                 className="btn btn-sm btn-primary"
-                id="footer-whatsapp-btn"
-                aria-label="Enquire via WhatsApp"
+                id="footer-call-btn"
+                aria-label="Call Flownergy on 08164223272"
               >
                 <MessageSquare size={15} />
-                WhatsApp Enquiry
-              </button>
+                Call Us
+              </a>
             </div>
           </div>
 
