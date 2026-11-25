@@ -34,7 +34,7 @@ export function getFormattedSubmissionTime() {
  * @returns {Promise<{success: boolean, message: string}>}
  */
 export async function submitToWeb3Forms(payload) {
-  const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY;
+  const accessKey = import.meta.env.VITE_WEB3FORMS_ACCESS_KEY || "c20530e4-b315-4e34-9fd9-57aeca76a385";
 
   if (!accessKey || accessKey.trim() === "" || accessKey.includes("your_web3forms_access_key")) {
     return {
@@ -65,9 +65,14 @@ export async function submitToWeb3Forms(payload) {
       })
     });
 
-    const result = await response.json();
+    let result = null;
+    try {
+      result = await response.json();
+    } catch {
+      result = null;
+    }
 
-    if (response.ok && result.success) {
+    if (response.ok && result && result.success) {
       return {
         success: true,
         message: result.message || "Enquiry successfully transmitted to FLOWNERGY engineering desk."
@@ -75,7 +80,7 @@ export async function submitToWeb3Forms(payload) {
     } else {
       return {
         success: false,
-        message: result.message || "Submission failed. Please verify your details or use our direct WhatsApp dispatch."
+        message: (result && result.message) || "Submission failed. Please verify your details or use our direct WhatsApp dispatch."
       };
     }
   } catch (error) {
