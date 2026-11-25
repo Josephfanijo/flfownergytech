@@ -88,7 +88,7 @@ export default function Contact() {
                   </div>
                   <div>
                     <h4 style={{ color: '#324763', marginBottom: '0.2rem', fontSize: '1.05rem' }}>Working Hours</h4>
-                    <p style={{ margin: 0, fontSize: '0.94rem', color: '#324763', fontWeight: 600 }}>{COMPANY_INFO.operatingHours}</p>
+                    <p style={{ margin: 0, fontSize: '0.94rem', color: '#324763', fontWeight: 600 }}>Monday – Friday: 9:00 AM – 4:00 PM</p>
                     <span style={{ fontSize: '0.82rem', color: '#718296' }}>Emergency maintenance support available for managed facilities</span>
                   </div>
                 </div>
